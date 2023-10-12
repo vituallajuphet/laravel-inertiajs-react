@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
-        Schema::create('products', function (Blueprint $table) {
-            $table->uuid('product_id')->primary();
-            $table->string('product_name');
-            $table->float('price');
-            $table->foreign('store_id')->references('uuid')->on('stores');
+        // Schema::dropIfExists('stores');
+
+
+        // Schema::drop('stores');
+        Schema::create('stores', function (Blueprint $table) {
+            $table->uuid('store_id')->primary();
+            $table->string('store_name');
+            $table->string('store_nickname');
             $table->string('status');
             $table->timestamps();
         });
@@ -27,6 +29,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        // Schema::dropColumns("stores", ["rememberToken"]);
+        Schema::dropIfExists('stores');
     }
 };

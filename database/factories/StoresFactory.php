@@ -17,7 +17,7 @@ class StoresFactory extends Factory
     public function definition(): array
     {
         return [
-            'uuid' => fake()->unique()->uuid(),
+            'store_id' => fake()->unique()->uuid(),
             'store_name' => fake()->unique()->name(),
             'store_nickname' => fake()->unique()->name(),
             'status' => '1',

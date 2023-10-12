@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Product;
 use App\Models\Stores;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -15,7 +16,7 @@ class StoresController extends Controller
     public function index() {
         $data = Stores::paginate(15)->through(function ($item) {
             return [
-                'id' => $item->uuid,
+                'store_id' => $item->uuid,
                 'name' => $item->store_name,
                 'nickname' => $item->store_nickname,
                 // etc
@@ -28,10 +29,12 @@ class StoresController extends Controller
         
     }
 
-    public function show (Request $request, $uuid) {
-        $store = Stores::query()->where('uuid', $uuid)->firstOrFail();
+    public function show (Request $request, $store_id) {
+        $store = Stores::query()->where('store_id', $store_id)->firstOrFail();
+        $products = Product::query()->where('store_id', $store_id)->get();
         return Inertia::render('Store/Store', [
-            'store' =>  $store
+            'store' =>  $store,
+            'products' => $products
          ]);
 
     }

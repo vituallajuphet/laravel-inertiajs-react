@@ -16,15 +16,13 @@ const Stores = (props)  => {
 
     const navigateStore = (id: string) => {
         get(route('store.show',{
-            uuid: id
+            store_id: id
         }))
     }
 
     const handleDelete = (uuid: string) => {
-        console.log("uuid: uuid", uuid)
-
         destroy(route('store.destroy', {
-            uuid: uuid
+            store_id: uuid
         }))
     }
     
@@ -45,12 +43,12 @@ const Stores = (props)  => {
                                         {
                                             stores.map(d => {
                                                 return (
-                                                    <div key={d.id}
+                                                    <div key={d.store_id}
                                                         className='relative cursor-pointer group sm:w-[23.7%] bg-[#2222] bg-gray-100 overflow-hidden shadow-sm sm:rounded min-h-[12rem] p-5'
                                                         onClick={() => {
-                                                            navigateStore(d.id)
+                                                            navigateStore(d.store_id)
                                                         }}
-                                                    >
+                                                        >
                                                         <div className='font-semibold flex flex-row items-center gap-2'> 
                                                             <FaStore size={20} color='#69b4f0'/>
                                                             <span className='text-sm text-gray-700'> {d.name}</span>

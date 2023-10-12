@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoresController;
 use Illuminate\Foundation\Application;
@@ -38,8 +39,12 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/stores', [StoresController::class, 'index'])->name('store.index');
-    Route::get('/store/{uuid}', [StoresController::class, 'show'])->name('store.show');
-    Route::delete('/store/{uuid}', [StoresController::class, 'destroy'])->name('store.destroy');
+    Route::get('/store/{store_id}', [StoresController::class, 'show'])->name('store.show');
+    Route::delete('/store/{store_id}', [StoresController::class, 'destroy'])->name('store.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('product-register', [ProductController::class, 'store'])->name('product.store');
 });
 
 require __DIR__.'/auth.php';
