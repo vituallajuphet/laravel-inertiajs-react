@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +50,11 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $email = $this->only('email');
+        $user = User::where('email',  $email['email'])->first();
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        dd( $token);
         RateLimiter::clear($this->throttleKey());
     }
 

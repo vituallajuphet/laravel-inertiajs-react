@@ -16,7 +16,7 @@ class StoresController extends Controller
     public function index() {
         $data = Stores::paginate(15)->through(function ($item) {
             return [
-                'store_id' => $item->uuid,
+                'store_id' => $item->store_id,
                 'name' => $item->store_name,
                 'nickname' => $item->store_nickname,
                 // etc

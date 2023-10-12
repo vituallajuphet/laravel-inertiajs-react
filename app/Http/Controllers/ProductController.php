@@ -27,7 +27,7 @@ class ProductController extends Controller
             'product_id' => fake()->unique()->uuid(),
             'product_name' => $request->product_name,
             'price' => $request->price,
-            'store_id' => '00767690-0d0a-3051-bfbd-3988a4f00644',
+            'store_id' => '00105e64-691b-358c-ba7b-0eee5298a4f8',
             'status'=> '1'
         ]);
 
