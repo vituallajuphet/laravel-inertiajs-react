@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\StoreController;
+use App\Http\Controllers\StoresController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,8 +37,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/stores', [StoreController::class, 'index'])->name('store.index');
-    Route::delete('/store/{uuid}', [StoreController::class, 'destroy'])->name('store.destroy');
+    Route::get('/stores', [StoresController::class, 'index'])->name('store.index');
+    Route::get('/store/{uuid}', [StoresController::class, 'show'])->name('store.show');
+    Route::delete('/store/{uuid}', [StoresController::class, 'destroy'])->name('store.destroy');
 });
 
 require __DIR__.'/auth.php';

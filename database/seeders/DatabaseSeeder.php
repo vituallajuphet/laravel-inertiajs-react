@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
 
-        // \App\Models\Store::factory(10)->create();
+        \App\Models\Stores::factory(500)->create();
 
         // \App\Models\Store::factory()->create([
         //     'name' => 'Test User',
