@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/tests', function ()  {
         return 1;
     });
+    Route::get('/product/{id}', [ProductController::class, 'api_show']);
 });
 
 // Protected routes

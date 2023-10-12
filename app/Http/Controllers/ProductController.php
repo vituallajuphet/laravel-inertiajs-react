@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Traits\HttpResponses;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Inertia\Response;
 
 class ProductController extends Controller
 {
+    use HttpResponses;
     /**
      * Display the user's profile form.
      */
@@ -33,6 +35,16 @@ class ProductController extends Controller
 
         return redirect()->back();
     }
+
+
+    public function api_show (Request $request=null, $store_id) {
+        $products = Product::query()->where('store_id', $store_id)->get();
+
+        return $this->success([
+            'products' => $products,
+        ], 'successful');
+    }
+
 
     /**
      * Update the user's profile information.
