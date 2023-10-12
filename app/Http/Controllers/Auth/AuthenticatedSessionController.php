@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Traits\HttpResponses;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +16,8 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+
+    use HttpResponses;
     /**
      * Display the login view.
      */
@@ -38,6 +42,30 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
+    public function api_login (LoginRequest $request) {
+
+        $request->validated($request->only(['email', 'password']));
+
+        if(!Auth::attempt($request->only(['email', 'password']))) {
+            return $this->error('', 'Credentials do not match', 401);
+        }
+        $user = User::where('email', $request->email)->first();
+
+        return $this->success([
+            'user' => $user,
+            'token' => $user->createToken('API Token')->plainTextToken
+        ]);
+
+    }
+
+    public function logout()
+    {
+        Auth::user()->currentAccessToken()->delete();
+
+        return $this->success([
+            'message' => 'You have succesfully been logged out and your token has been removed'
+        ]);
+    }
     /**
      * Destroy an authenticated session.
      */

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', [AuthenticatedSessionController::class, 'api_login']);
+
 // Route::get('/tests', function ()  {
 //     return 1;
 // });
@@ -30,6 +33,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthenticatedSessionController::class, 'logout']);
     Route::resource('/tasks', TasksController::class);
 });
