@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('price');
             $table->uuid('store_id');
             $table->string('status');
+            $table->json('product_images');
             $table->timestamps();
         });
 
