@@ -1,18 +1,41 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 function Product(props: any) {
 
-	 const { product_name, product_id, price } = props
+	 const { product_name, product_id, price, product_images, ziggy} = props
 
+     
+
+    const imagesObject = useMemo(() => {
+        return JSON.parse(product_images)
+    }, [product_images])
+    
+    console.log(props.url)
     return (
         <div>
         		<div className="w-full max-w-[15rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
-                    <img
-                        className="p-8 rounded-t-lg"
-                        src="https://flowbite.com/docs/images/products/apple-watch.png"
-                        alt="product image"
-                    />
+                    {
+                        imagesObject?.length ? (
+                            <>
+                                {
+                                    imagesObject?.map(img => (
+                                        <img
+                                            className="p-8 rounded-t-lg"
+                                            src={'http://localhost:8000/storage/thumbnails/'+img.product_name}
+                                            alt="product image"
+                                        />
+                                    ))
+                                }
+                            </>
+                        ) : (
+                            <img
+                                className="p-8 rounded-t-lg"
+                                src="https://flowbite.com/docs/images/products/apple-watch.png"
+                                alt="product image"
+                            />
+                        )
+                    }
                 </a>
                 <div className="px-5 pb-5">
                     <a href="#">

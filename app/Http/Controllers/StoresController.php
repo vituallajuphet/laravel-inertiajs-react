@@ -34,7 +34,8 @@ class StoresController extends Controller
         $products = Product::query()->where('store_id', $store_id)->get();
         return Inertia::render('Store/Store', [
             'store' =>  $store,
-            'products' => $products
+            'products' => $products,
+            'url' => $request->getSchemeAndHttpHost()
         ]);
     }
 
