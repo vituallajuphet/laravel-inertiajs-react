@@ -26,6 +26,7 @@
         "ziggy-js": "^1.8.0"
     },
     "dependencies": {
+        "moment": "^2.29.4",
         "react-icons": "^4.11.0"
     }
 }

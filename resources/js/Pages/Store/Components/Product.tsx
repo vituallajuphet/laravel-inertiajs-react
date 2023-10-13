@@ -1,33 +1,41 @@
 import React, { useMemo } from "react";
+import ProductImage from "./ProductImage";
+import ProductTable from "./ProductTable";
 
 function Product(props: any) {
 
-	 const { product_name, product_id, price, product_images, ziggy} = props
-
-     
+	 const { product_name, product_id, price, product_images, ziggy} = props  
 
     const imagesObject = useMemo(() => {
-        return JSON.parse(product_images)
+        if(!product_images) return []
+        try {
+            return JSON.parse(product_images)
+        } catch (error) {
+            return []
+        }
     }, [product_images])
     
-    console.log(props.url)
     return (
         <div>
+          
         		<div className="w-full max-w-[15rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
                     {
                         imagesObject?.length ? (
-                            <>
-                                {
-                                    imagesObject?.map(img => (
-                                        <img
-                                            className="p-8 rounded-t-lg"
-                                            src={'http://localhost:8000/storage/thumbnails/'+img.product_name}
-                                            alt="product image"
-                                        />
-                                    ))
-                                }
-                            </>
+                            // <div className="flex flex-row">
+                            //     {
+                            //         imagesObject?.map(img => (
+                            //             <img
+                            //                 className="p-8 rounded-t-lg"
+                            //                 src={'http://localhost:8000/storage/thumbnails/'+img.product_name}
+                            //                 alt="product image"
+                            //             />
+                            //         ))
+                                 
+                            //     }
+                            // </div>
+                            // <ProductImage  products={imagesObject}/>
+                            <></>
                         ) : (
                             <img
                                 className="p-8 rounded-t-lg"

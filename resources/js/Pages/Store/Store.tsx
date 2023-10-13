@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { FaPlus } from 'react-icons/fa';
 import Product from './Components/Product';
 import RegisterForm from './Components/RegisterForm';
+import ProductTable from './Components/ProductTable';
 
 const Store = (props) => {
 
@@ -48,9 +49,11 @@ const Store = (props) => {
                 <div>
                   {showAdd ? <RegisterForm  {...props} /> : null }   
                 </div>
+               
 
-                <div className='mt-6 flex flex-row justify-center gap-5 pb-6 px-6'>
-                   {
+                <div className='mt-6  w-full pb-6 px-6'>
+                  <ProductTable {...props} products={products}/>
+                   {/* {
                      products?.map(prod => {
                       return <Product 
                         {...prod}
@@ -61,7 +64,7 @@ const Store = (props) => {
                    }
                    {!products?.length ? (
                     <div>No Products</div>
-                   ) : null}
+                   ) : null} */}
                 </div>
             </div>
         </div>

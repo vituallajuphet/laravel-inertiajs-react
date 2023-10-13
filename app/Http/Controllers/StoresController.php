@@ -41,6 +41,15 @@ class StoresController extends Controller
         ]);
     }
 
+    public function show_product (Request $request, $store_id, $product_id) {
+        $product = Product::query()->where(['store_id'=>$store_id, 'product_id'=>$product_id])->get();
+        return Inertia::render('Product/Product', [
+            'product' => $product,
+            'url' => $request->getSchemeAndHttpHost()
+        ]);
+    }
+    
+
     public function api_all () {
         $stores = Stores::all();
 
