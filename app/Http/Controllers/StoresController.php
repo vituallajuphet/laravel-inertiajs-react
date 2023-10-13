@@ -35,8 +35,7 @@ class StoresController extends Controller
         return Inertia::render('Store/Store', [
             'store' =>  $store,
             'products' => $products
-         ]);
-
+        ]);
     }
 
     public function destroy(Request $request, $uuid ) {

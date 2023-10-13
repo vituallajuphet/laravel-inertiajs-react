@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Traits\HttpResponses;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -9,8 +10,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Str;
+use Image;
 
 class ProductController extends Controller
 {
@@ -20,17 +25,52 @@ class ProductController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
+        $files = $request->file('files');
+
+
+        $passed = count($files) > 0;
+
         $request->validate([
             'product_name' => 'required|string|max:255',
-            'price' => 'integer',
-        ]);
+            'price' => 'required',
+         ]);
+
+
+       foreach($files as $file) {
+            $rules = array('file' => 'required|mimes:png,gif,jpeg'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+            $validator = Validator::make(array('file'=> $file), $rules, ['required' => 'image is requred']);
+       
+            if(!$validator->passes()){
+                $passed = false;
+                //     $filename = $file->getClientOriginalName();
+                    // $upload_success = $file->move($destinationPath, $filename);
+                //     $uploadcount ++;
+            }
+        }
+
+        $productImages= [];
+
+        if($passed) {
+            foreach($files as $file) {
+                $input['file'] = Str::random(10).time().'.'.$file->getClientOriginalExtension();
+                $destinationPath = public_path('storage/thumbnails');
+                $imgFile = Image::make($file->getRealPath());
+                $imgFile->resize(250, 250, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath.'/'.$input['file']);
+
+                $productImages = [...$productImages, ['product_name' => $input['file']]];
+            }
+        }
 
         Product::create([   
             'product_id' => fake()->unique()->uuid(),
             'product_name' => $request->product_name,
             'price' => $request->price,
-            'store_id' => '00105e64-691b-358c-ba7b-0eee5298a4f8',
-            'status'=> '1'
+            'store_id' => $request->store_id,
+            'product_images' => json_encode($productImages),
+            'status'=> '1',
         ]);
 
         return redirect()->back();
@@ -40,6 +80,7 @@ class ProductController extends Controller
     public function api_show (Request $request=null, $store_id) {
         $products = Product::query()->where('store_id', $store_id)->get();
 
+        
         return $this->success([
             'products' => $products,
         ], 'successful');

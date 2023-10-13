@@ -46,7 +46,7 @@ const Store = (props) => {
                 <div className='p-6 flex flex-row gap-2'>
                 </div>
                 <div>
-                  {showAdd ? <RegisterForm /> : null }   
+                  {showAdd ? <RegisterForm  {...props} /> : null }   
                 </div>
 
                 <div className='mt-6 flex flex-row justify-center gap-5 pb-6 px-6'>
