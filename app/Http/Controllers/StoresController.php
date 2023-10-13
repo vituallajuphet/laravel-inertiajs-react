@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Product;
 use App\Models\Stores;
+use App\Traits\HttpResponses;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Inertia\Inertia;
 
 class StoresController extends Controller
 {
+    use HttpResponses;
     public function index() {
         $data = Stores::paginate(15)->through(function ($item) {
             return [
@@ -38,6 +40,15 @@ class StoresController extends Controller
          ]);
 
     }
+
+    public function api_all () {
+        $stores = Stores::all();
+
+        return $this->success([
+            'stores' => $stores,
+        ], 'successful');
+    }
+
 
     public function destroy(Request $request, $uuid ) {
          Stores::query()->where('uuid', $uuid)->delete();
