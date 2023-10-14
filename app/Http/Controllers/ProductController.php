@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -55,6 +56,13 @@ class ProductController extends Controller
             foreach($files as $file) {
                 $input['file'] = Str::random(10).time().'.'.$file->getClientOriginalExtension();
                 $destinationPath = public_path('storage/thumbnails');
+
+                $folderExist = is_dir($destinationPath);
+
+                if(!$folderExist){
+                    File::makeDirectory($destinationPath, 0777, true, true);
+                }
+
                 $imgFile = Image::make($file->getRealPath());
                 $imgFile->resize(250, 250, function ($constraint) {
                     $constraint->aspectRatio();
