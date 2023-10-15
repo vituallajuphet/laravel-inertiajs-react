@@ -14,9 +14,10 @@ trait FileChecker {
     protected function UploadFile ($path= '', bool $createable = false, array $files = [], $dataType ='')
     {
 
+        $defualtResponse = array("message" => "Image is required13", 'error' => true, 'product_images' => []);
 
         if(count($files) < 1){
-            return array("message" => "Image is required13", 'error' => true);
+            return  $defualtResponse;
         }
 
 
@@ -26,6 +27,7 @@ trait FileChecker {
 
         
         $yearPath = !isEmpty($path) ? $path : public_path($publicPath.$year);
+        $monthYearPath = $publicPath.$year.'/'.$month;
 
         $yearPathExists = is_dir($yearPath);
 
@@ -52,7 +54,7 @@ trait FileChecker {
     
             if(!$validator->passes()){
                 $passed = false;
-                return array("message" => "Image is required1", 'error' => true);
+                return $defualtResponse;
                 break;
             }
         }
@@ -61,20 +63,28 @@ trait FileChecker {
 
         if($passed) {
             foreach($files as $file) {
-                $input['file'] = Str::random(10).time().'.'.$file->getClientOriginalExtension();
+
+                $ext = $file->getClientOriginalExtension();
+
+                $input['file'] = Str::random(10).time().'.'.$ext;
 
 
                 $imgFile = Image::make($file->getRealPath());
-                $imgFile->resize(250, 250, function ($constraint) {
+                $imgFile->resize(500, 500, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($fullpath.'/'.$input['file']);
 
-                $productImages = [...$productImages, ['product_name' => $input['file']]];
+                $productImages = [...$productImages, [
+                    'filename' => $input['file'],
+                    'fullPath' => $fullpath.'/'.$input['file'],
+                    'path' => $monthYearPath.'/'.$input['file'],
+                    'fileExtension' => $ext
+                ]];
             }
-            return array("message" => "success", 'error' => false);
+            return array("message" => "success", 'error' => false, 'product_images' => $productImages);
         }
         
-        return array("message" => "Image is required 2", 'error' => true);
+        return  $defualtResponse;
 
     }
     

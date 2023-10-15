@@ -1,32 +1,38 @@
-import React from 'react'
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Link, useForm, usePage } from '@inertiajs/react';
-import { Transition } from '@headlessui/react';
+import React from "react";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import { Link, useForm, usePage } from "@inertiajs/react";
+import { Transition } from "@headlessui/react";
 
-const  UpdateProfileInformation = (props: any) => {
-
-    const { mustVerifyEmail, status, className = '' } = props
+const UpdateProfileInformation = (props: any) => {
+    const { mustVerifyEmail, status, className = "" } = props;
 
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
-        email: user.email,
-    });
+    console.log("user", user);
+
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
+        useForm({
+            name: user.name,
+            email: user.email,
+            usertype: user.usertype,
+            username: user.username,
+        });
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        patch(route("profile.update"));
     };
 
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
+                <h2 className="text-lg font-medium text-gray-900">
+                    Profile Information
+                </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
                     Update your account's profile information and email address.
@@ -41,7 +47,7 @@ const  UpdateProfileInformation = (props: any) => {
                         id="name"
                         className="mt-1 block w-full"
                         value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
+                        onChange={(e) => setData("name", e.target.value)}
                         required
                         isFocused
                         autoComplete="name"
@@ -58,12 +64,43 @@ const  UpdateProfileInformation = (props: any) => {
                         type="email"
                         className="mt-1 block w-full"
                         value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => setData("email", e.target.value)}
                         required
                         autoComplete="username"
                     />
 
                     <InputError className="mt-2" message={errors.email} />
+                </div>
+                <div>
+                    <InputLabel htmlFor="username" value="Username" />
+
+                    <TextInput
+                        id="username"
+                        type="text"
+                        className="mt-1 block w-full"
+                        value={data.username}
+                        onChange={(e) => setData("username", e.target.value)}
+                        required
+                        autoComplete="username"
+                    />
+
+                    <InputError className="mt-2" message={errors.username} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="usertype" value="User Type" />
+
+                    <TextInput
+                        id="usertype"
+                        type="text"
+                        className="mt-1 block w-full"
+                        value={data.usertype}
+                        onChange={(e) => setData("usertype", e.target.value)}
+                        required
+                        autoComplete="usertype"
+                    />
+
+                    <InputError className="mt-2" message={errors.usertype} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
@@ -71,7 +108,7 @@ const  UpdateProfileInformation = (props: any) => {
                         <p className="text-sm mt-2 text-gray-800">
                             Your email address is unverified.
                             <Link
-                                href={route('verification.send')}
+                                href={route("verification.send")}
                                 method="post"
                                 as="button"
                                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -80,9 +117,10 @@ const  UpdateProfileInformation = (props: any) => {
                             </Link>
                         </p>
 
-                        {status === 'verification-link-sent' && (
+                        {status === "verification-link-sent" && (
                             <div className="mt-2 font-medium text-sm text-green-600">
-                                A new verification link has been sent to your email address.
+                                A new verification link has been sent to your
+                                email address.
                             </div>
                         )}
                     </div>
@@ -104,7 +142,6 @@ const  UpdateProfileInformation = (props: any) => {
             </form>
         </section>
     );
-}
+};
 
-
-export default UpdateProfileInformation
+export default UpdateProfileInformation;
