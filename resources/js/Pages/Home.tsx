@@ -40,7 +40,7 @@ const Home = (props) => {
                 <div className="flex flex-1 justify-center">
                     <div className="max-w-sm">
                         <img
-                            src={`/storage/logo/${
+                            src={`/images/logo/${
                                 theme === "dark" ? "logo-dark" : "logo-white"
                             }.png`}
                         />
