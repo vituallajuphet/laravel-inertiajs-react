@@ -5,6 +5,8 @@ import { useDarkSide } from "@/hooks/useTheme";
 const Home = (props) => {
     const { auth, laravelVersion, phpVersion, url } = props;
 
+    const { theme } = useDarkSide();
+
     return (
         <>
             <Head title="Home" />
@@ -35,8 +37,17 @@ const Home = (props) => {
                         </>
                     )}
                 </div>
-                <div className="flex-1">
-                    <img src={`/storage/logo/logo-white.png`} />
+                <div className="flex flex-1 justify-center">
+                    <div className="max-w-sm">
+                        <img
+                            src={`/storage/logo/${
+                                theme === "dark" ? "logo-dark" : "logo-white"
+                            }.png`}
+                        />
+                        <p className="text-lg text-gray-700 dark:text-gray-400 mt-2 text-center">
+                            Your Vision, Your Store, Our Expertise.
+                        </p>
+                    </div>
                 </div>
             </div>
         </>
