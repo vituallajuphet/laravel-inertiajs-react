@@ -2,8 +2,8 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
-export default function Dashboards({ auth }) {
-    return <div>ngare</div>;
+function Dashboard(props) {
+    const { auth } = props;
 
     return (
         <AuthenticatedLayout
@@ -28,3 +28,5 @@ export default function Dashboards({ auth }) {
         </AuthenticatedLayout>
     );
 }
+
+export default Dashboard;

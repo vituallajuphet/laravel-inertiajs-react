@@ -40,8 +40,7 @@ class ProductController extends Controller
 
         $upload = $this->UploadFile('', true, $files);
 
-        dd( $upload);
-        exit;
+
         // if($this->UploadFile('', true, $files)) {
         //     return redirect()->back()->with($upload); 
         // }

@@ -38,5 +38,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout']);
-    Route::resource('/tasks', TasksController::class);
+    // Route::resource('/tasks', TasksController::class);
 });

@@ -39,17 +39,17 @@ export default function Authenticated(props: any) {
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("dashboards")}
-                                    active={route().current("dashboards")}
+                                    href={route("password.email")}
+                                    // active={route().current("admin/dashboards")}
                                 >
                                     Dashboard
                                 </NavLink>
-                                <NavLink
+                                {/* <NavLink
                                     href={route("store.index")}
                                     active={route().current("store.index")}
                                 >
                                     Stores
-                                </NavLink>
+                                </NavLink> */}
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@ export default function Authenticated(props: any) {
 
                                     <Dropdown.Content>
                                         <Dropdown.Link
-                                            href={route("profile.edit")}
+                                            href={route("adminprofile")}
                                         >
                                             Profile
                                         </Dropdown.Link>
@@ -154,8 +154,8 @@ export default function Authenticated(props: any) {
                 >
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href={route("dashboards")}
-                            active={route().current("dashboards")}
+                            href={route("dashboard")}
+                            active={route().current("dashboard")}
                         >
                             Dashboard
                         </ResponsiveNavLink>
@@ -172,7 +172,7 @@ export default function Authenticated(props: any) {
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route("profile.edit")}>
+                            <ResponsiveNavLink href={route("adminprofile")}>
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink

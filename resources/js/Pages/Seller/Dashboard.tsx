@@ -2,15 +2,15 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
-export default function Dashboards({ auth }) {
-    return <div>ngare</div>;
+function Dashboard(props) {
+    const { auth } = props;
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
+                    Dashboard Seller
                 </h2>
             }
         >
@@ -28,3 +28,5 @@ export default function Dashboards({ auth }) {
         </AuthenticatedLayout>
     );
 }
+
+export default Dashboard;
