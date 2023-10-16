@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Traits\HttpResponses;
+use App\Traits\Utils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ use Inertia\Response;
 class AuthenticatedSessionController extends Controller
 {
 
-    use HttpResponses;
+    use HttpResponses, Utils;
     /**
      * Display the login view.
      */
@@ -39,7 +40,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return $this->intendedRoute();
     }
 
     public function api_login (LoginRequest $request) {
