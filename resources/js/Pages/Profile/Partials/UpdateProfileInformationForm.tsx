@@ -17,7 +17,6 @@ const UpdateProfileInformation = (props: any) => {
         useForm({
             name: user.name,
             email: user.email,
-            usertype: user.usertype,
             username: user.username,
         });
 
@@ -85,22 +84,6 @@ const UpdateProfileInformation = (props: any) => {
                     />
 
                     <InputError className="mt-2" message={errors.username} />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="usertype" value="User Type" />
-
-                    <TextInput
-                        id="usertype"
-                        type="text"
-                        className="mt-1 block w-full"
-                        value={data.usertype}
-                        onChange={(e) => setData("usertype", e.target.value)}
-                        required
-                        autoComplete="usertype"
-                    />
-
-                    <InputError className="mt-2" message={errors.usertype} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

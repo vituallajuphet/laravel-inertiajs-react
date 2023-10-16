@@ -51,7 +51,7 @@ class LoginRequest extends FormRequest
         }
 
         $email = $this->only('email');
-        $user = User::where('email',  $email['email'])->first();
+        $user = User::with('role')->where('email',  $email['email'])->first();
         $token = $user->createToken('API Token')->plainTextToken;
 
         RateLimiter::clear($this->throttleKey());

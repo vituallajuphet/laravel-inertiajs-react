@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Stores extends Model
 {
     use HasFactory;
-
-
+    
      /**
      * The attributes that are mass assignable.
      *

@@ -7,10 +7,7 @@ use App\Models\Product;
 use App\Models\Stores;
 use App\Traits\FileChecker;
 use App\Traits\HttpResponses;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
