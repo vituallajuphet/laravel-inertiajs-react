@@ -9,7 +9,6 @@ import { useDarkSide } from "@/hooks/useTheme";
 
 export default function Authenticated(props: any) {
     const { user, header, children } = props;
-
     const { theme, setTheme } = useDarkSide();
 
     const [isDarkMode, setDarkMode] = useState<boolean>(theme === "dark");

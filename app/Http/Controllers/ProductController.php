@@ -28,14 +28,14 @@ class ProductController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        
+
         $files = $request->file('files');
         $passed = count($files) > 0;
 
         $request->validate([
             'product_name' => 'required|string|max:255',
             'price' => 'required',
-         ]);
+        ]);
 
 
         $upload = $this->UploadFile('', true, $files);
@@ -45,54 +45,55 @@ class ProductController extends Controller
         //     return redirect()->back()->with($upload); 
         // }
 
-    //    foreach($files as $file) {
-    //         $rules = array('file' => 'required|mimes:png,gif,jpeg'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
-    //         $validator = Validator::make(array('file'=> $file), $rules, ['required' => 'image is requred']);
-       
-    //         if(!$validator->passes()){
-    //             $passed = false;
-    //             //     $filename = $file->getClientOriginalName();
-    //                 // $upload_success = $file->move($destinationPath, $filename);
-    //             //     $uploadcount ++;
-    //         }
-    //     }
+        //    foreach($files as $file) {
+        //         $rules = array('file' => 'required|mimes:png,gif,jpeg'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+        //         $validator = Validator::make(array('file'=> $file), $rules, ['required' => 'image is requred']);
 
-    //     $productImages= [];
+        //         if(!$validator->passes()){
+        //             $passed = false;
+        //             //     $filename = $file->getClientOriginalName();
+        //                 // $upload_success = $file->move($destinationPath, $filename);
+        //             //     $uploadcount ++;
+        //         }
+        //     }
 
-    //     if($passed) {
-    //         foreach($files as $file) {
-    //             $input['file'] = Str::random(10).time().'.'.$file->getClientOriginalExtension();
-    //             $destinationPath = public_path('storage/thumbnails');
+        //     $productImages= [];
 
-    //             $folderExist = is_dir($destinationPath);
+        //     if($passed) {
+        //         foreach($files as $file) {
+        //             $input['file'] = Str::random(10).time().'.'.$file->getClientOriginalExtension();
+        //             $destinationPath = public_path('storage/thumbnails');
 
-    //             if(!$folderExist){
-    //                 File::makeDirectory($destinationPath, 0777, true, true);
-    //             }
+        //             $folderExist = is_dir($destinationPath);
 
-    //             $imgFile = Image::make($file->getRealPath());
-    //             $imgFile->resize(250, 250, function ($constraint) {
-    //                 $constraint->aspectRatio();
-    //             })->save($destinationPath.'/'.$input['file']);
+        //             if(!$folderExist){
+        //                 File::makeDirectory($destinationPath, 0777, true, true);
+        //             }
 
-    //             $productImages = [...$productImages, ['product_name' => $input['file']]];
-    //         }
-    //     }
+        //             $imgFile = Image::make($file->getRealPath());
+        //             $imgFile->resize(250, 250, function ($constraint) {
+        //                 $constraint->aspectRatio();
+        //             })->save($destinationPath.'/'.$input['file']);
 
-        Product::create([   
+        //             $productImages = [...$productImages, ['product_name' => $input['file']]];
+        //         }
+        //     }
+
+        Product::create([
             'product_id' => fake()->unique()->uuid(),
             'product_name' => $request->product_name,
             'price' => $request->price,
             'store_id' => $request->store_id,
             'product_images' => json_encode($productImages),
-            'status'=> '1',
+            'status' => '1',
         ]);
 
         return redirect()->back();
     }
 
 
-    public function api_show (Request $request=null, $store_id) {
+    public function api_show(Request $request = null, $store_id)
+    {
         $products = Product::query()->where('store_id', $store_id)->get();
 
         return $this->success([
