@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SellerGuest from "@/Layouts/SellerGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
@@ -14,8 +14,16 @@ const Register = () => {
         phone: "",
         email: "",
         seller_type: "",
-        seller_fullname: ''
+        name: '',
+        password: '',
+        password_confirmation: '',
     });
+
+    useEffect(() => {
+        return () => {
+            reset('password', 'password_confirmation');
+        };
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -46,21 +54,25 @@ const Register = () => {
                                          }} 
                                          label='Individual' 
                                          name="seller_type" 
-                                         value="Individual"
+                                         value="Individuals"
                                     />
                                     <RadioButton 
                                         label='Corporate' 
                                         name='seller_type' 
-                                        value="Corporate"
+                                        value="Individuals"
                                         onChange={(e) => {
                                             setData("seller_type",  e.target.value)
                                         }} 
                                     />
                                 </div>
+                                <InputError
+                                    message={errors.seller_type}
+                                    className="mb-4"
+                                />
                             </div>
                             <div className="mt-2">
                                 <InputLabel
-                                    htmlFor="seller_fullname"
+                                    htmlFor="name"
                                     className="dark:text-white"
                                     value="Seller Full Name"
                                 />
@@ -68,18 +80,18 @@ const Register = () => {
                                 <TextInput
                                     id="Phone"
                                     type="text"
-                                    name="fullname"
-                                    value={data.seller_fullname}
+                                    name="name"
+                                    value={data.name}
                                     className="mt-1 block w-full"
                                     autoComplete="email"
                                     onChange={(e) =>
-                                        setData("seller_fullname", e.target.value)
+                                        setData("name", e.target.value)
                                     }
                                     required
                                 />
 
                                 <InputError
-                                    message={errors.phone}
+                                    message={errors.name}
                                     className="mt-2"
                                 />
                             </div>
@@ -129,10 +141,46 @@ const Register = () => {
                                 />
 
                                 <InputError
-                                    message={errors.phone}
+                                    message={errors.email}
                                     className="mt-2"
                                 />
-                                <div className="flex items-center justify-end mt-6">
+                            </div>
+                            <div className="mt-4">
+                                <InputLabel htmlFor="password" value="Password" />
+
+                                <TextInput
+                                    type="password"
+                                    name="password"
+                                    value={data.password}
+                                    className="mt-1 block w-full"
+                                    autoComplete="password"
+                                    onChange={(e) => setData('password', e.target.value)}
+                                />
+
+                                <InputError
+                                    message={errors.password}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div className="mt-4">
+                                <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+
+                                <TextInput
+                                    type="password"
+                                    name="password_confirmation"
+                                    value={data.password_confirmation}
+                                    className="mt-1 block w-full"
+                                    autoComplete="new-password"
+                                    onChange={(e) => setData('password_confirmation', e.target.value)}
+                                />
+
+                                <InputError
+                                    message={errors.password_confirmation}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div className="mt-4">
+                            <div className="flex items-center justify-end mt-6">
                                     <DefaultButton
                                         className="dark:bg-primary-dark"
                                         disabled={processing}

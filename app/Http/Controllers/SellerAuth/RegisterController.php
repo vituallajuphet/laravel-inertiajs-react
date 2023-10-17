@@ -3,8 +3,16 @@
 namespace App\Http\Controllers\SellerAuth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use App\Rules\SellerTypeRule;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Illuminate\Validation\Rules;
 use Inertia\Response;
 
 class RegisterController extends Controller
@@ -20,7 +28,32 @@ class RegisterController extends Controller
     }
 
     public function store(Request $request) {
+
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'seller_type' => ['required', 'string' , 'max:255', new  SellerTypeRule],
+            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
         dd($request);
+
+        $user = User::create([
+            'name' => ucfirst($request->name),
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+        ]);
+        $role = $user->role ?: new Role();
+        $role->role_type = 'seller';
+        $user->role()->save($role);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
     }
 
     /**
