@@ -125,7 +125,7 @@ const Register = () => {
                     <div className="flex-1 p-6 px-16 text-gray-900 dark:text-white">
                         <div>
                             <h2 className="text-4xl font-bold text-primary-default dark:text-primary-dark">
-                                Buynimo Marketplace
+                                Sample Marketplace
                             </h2>
                             <h3 className="text-2xl mt-3 text-primary-default dark:text-primary-dark">
                                 Grow your business and Sell more
