@@ -19,6 +19,10 @@ class RegisterController extends Controller
         return Inertia::render('Seller/Auth/Register');
     }
 
+    public function store(Request $request) {
+        dd($request);
+    }
+
     /**
      * Handle an incoming registration request.
      *

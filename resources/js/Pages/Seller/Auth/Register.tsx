@@ -7,12 +7,21 @@ import InputError from "@/Components/InputError";
 import Button from "@/Components/Button";
 import { FaBroadcastTower, FaFacebook, FaGoogle } from "react-icons/fa";
 import DefaultButton from "@/Components/DefaultButton";
+import RadioButton from "@/Components/RadioButton";
 
 const Register = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
         phone: "",
         email: "",
+        seller_type: "",
+        seller_fullname: ''
     });
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        post(route('merchant.store'));
+    }
+
     return (
         <SellerGuest>
             <Head title="Confirm Password" />
@@ -22,7 +31,58 @@ const Register = () => {
                         <h2 className="text-primary-default dark:text-primary-dark font-bold text-2xl">
                             Create Seller Account
                         </h2>
-                        <form action="">
+                        <form action="" onSubmit={handleSubmit}>
+                            <div className="mt-8">
+                                <InputLabel
+                                    htmlFor="seller_type"
+                                    className="dark:text-white"
+                                    value="Select Store Type"
+                                />
+
+                                <div className="flex flex-row mt-2 gap-4">
+                                    <RadioButton 
+                                        onChange={(e) => {
+                                            setData("seller_type",  e.target.value)
+                                         }} 
+                                         label='Individual' 
+                                         name="seller_type" 
+                                         value="Individual"
+                                    />
+                                    <RadioButton 
+                                        label='Corporate' 
+                                        name='seller_type' 
+                                        value="Corporate"
+                                        onChange={(e) => {
+                                            setData("seller_type",  e.target.value)
+                                        }} 
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-2">
+                                <InputLabel
+                                    htmlFor="seller_fullname"
+                                    className="dark:text-white"
+                                    value="Seller Full Name"
+                                />
+
+                                <TextInput
+                                    id="Phone"
+                                    type="text"
+                                    name="fullname"
+                                    value={data.seller_fullname}
+                                    className="mt-1 block w-full"
+                                    autoComplete="email"
+                                    onChange={(e) =>
+                                        setData("seller_fullname", e.target.value)
+                                    }
+                                    required
+                                />
+
+                                <InputError
+                                    message={errors.phone}
+                                    className="mt-2"
+                                />
+                            </div>
                             <div className="mt-4">
                                 <InputLabel
                                     htmlFor="Phone"

@@ -69,11 +69,9 @@ function RegisterForm(props) {
                         name="price"
                         value={data.price}
                         className="mt-1 block w-full"
-
                         onChange={(e) => setData("price", e.target.value)}
                         required
                     />
-
                 </div>
 
               

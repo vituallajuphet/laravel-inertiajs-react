@@ -28,6 +28,8 @@ Route::middleware('guest')->group(function () {
             ->name('merchant.register');
         Route::get('/login', [AuthController::class, 'create'])
             ->name('merchant.login');
+        Route::post('/register', [RegisterController::class, 'store'])
+            ->name('merchant.store');
     });
 });
 
