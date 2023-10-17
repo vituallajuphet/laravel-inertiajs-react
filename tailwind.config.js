@@ -6,7 +6,8 @@ const colors = {
     ...defaultColors,
     ...{
         "primary": {
-            "default" : "#ee4d2d"
+            "default" : "#ee4d2d",
+            "dark" : "#f26822"
         },                
     },
 }
