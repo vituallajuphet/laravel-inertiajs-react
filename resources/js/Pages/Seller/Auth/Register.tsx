@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SellerGuest from "@/Layouts/SellerGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
@@ -8,27 +8,34 @@ import Button from "@/Components/Button";
 import { FaBroadcastTower, FaFacebook, FaGoogle } from "react-icons/fa";
 import DefaultButton from "@/Components/DefaultButton";
 import RadioButton from "@/Components/RadioButton";
+import Phonenumber from "@/Components/Phonenumber";
 
 const Register = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
         phone: "",
         email: "",
         seller_type: "",
-        name: '',
-        password: '',
-        password_confirmation: '',
+        name: "",
+        password: "",
+        password_confirmation: "",
     });
+
+    const [phonenumber, setPhonenumber] = useState<any>();
 
     useEffect(() => {
         return () => {
-            reset('password', 'password_confirmation');
+            reset("password", "password_confirmation");
         };
     }, []);
 
+    useEffect(() => {
+        setData("phone", phonenumber);
+    }, [phonenumber]);
+
     const handleSubmit = (e) => {
-        e.preventDefault()
-        post(route('merchant.store'));
-    }
+        e.preventDefault();
+        post(route("merchant.store"));
+    };
 
     return (
         <SellerGuest>
@@ -39,6 +46,7 @@ const Register = () => {
                         <h2 className="text-primary-default dark:text-primary-dark font-bold text-2xl">
                             Create Seller Account
                         </h2>
+
                         <form action="" onSubmit={handleSubmit}>
                             <div className="mt-8">
                                 <InputLabel
@@ -48,21 +56,27 @@ const Register = () => {
                                 />
 
                                 <div className="flex flex-row mt-2 gap-4">
-                                    <RadioButton 
+                                    <RadioButton
                                         onChange={(e) => {
-                                            setData("seller_type",  e.target.value)
-                                         }} 
-                                         label='Individual' 
-                                         name="seller_type" 
-                                         value="Individual"
+                                            setData(
+                                                "seller_type",
+                                                e.target.value
+                                            );
+                                        }}
+                                        label="Individual"
+                                        name="seller_type"
+                                        value="Individual"
                                     />
-                                    <RadioButton 
-                                        label='Corporate' 
-                                        name='seller_type' 
+                                    <RadioButton
+                                        label="Corporate"
+                                        name="seller_type"
                                         value="Corporate"
                                         onChange={(e) => {
-                                            setData("seller_type",  e.target.value)
-                                        }} 
+                                            setData(
+                                                "seller_type",
+                                                e.target.value
+                                            );
+                                        }}
                                     />
                                 </div>
                                 <InputError
@@ -74,11 +88,11 @@ const Register = () => {
                                 <InputLabel
                                     htmlFor="name"
                                     className="dark:text-white"
-                                    value="Seller Full Name"
+                                    value="Full Name"
                                 />
 
                                 <TextInput
-                                    id="Phone"
+                                    id="name"
                                     type="text"
                                     name="name"
                                     value={data.name}
@@ -102,19 +116,10 @@ const Register = () => {
                                     value="Phone Number"
                                 />
 
-                                <TextInput
-                                    id="Phone"
-                                    type="number"
-                                    name="phone"
-                                    value={data.phone}
-                                    className="mt-1 block w-full"
-                                    autoComplete="email"
-                                    onChange={(e) =>
-                                        setData("phone", e.target.value)
-                                    }
-                                    required
+                                <Phonenumber
+                                    onChange={setPhonenumber}
+                                    value={phonenumber}
                                 />
-
                                 <InputError
                                     message={errors.phone}
                                     className="mt-2"
@@ -146,7 +151,10 @@ const Register = () => {
                                 />
                             </div>
                             <div className="mt-4">
-                                <InputLabel htmlFor="password" value="Password" />
+                                <InputLabel
+                                    htmlFor="password"
+                                    value="Password"
+                                />
 
                                 <TextInput
                                     type="password"
@@ -154,7 +162,9 @@ const Register = () => {
                                     value={data.password}
                                     className="mt-1 block w-full"
                                     autoComplete="password"
-                                    onChange={(e) => setData('password', e.target.value)}
+                                    onChange={(e) =>
+                                        setData("password", e.target.value)
+                                    }
                                 />
 
                                 <InputError
@@ -163,7 +173,10 @@ const Register = () => {
                                 />
                             </div>
                             <div className="mt-4">
-                                <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+                                <InputLabel
+                                    htmlFor="password_confirmation"
+                                    value="Confirm Password"
+                                />
 
                                 <TextInput
                                     type="password"
@@ -171,7 +184,12 @@ const Register = () => {
                                     value={data.password_confirmation}
                                     className="mt-1 block w-full"
                                     autoComplete="new-password"
-                                    onChange={(e) => setData('password_confirmation', e.target.value)}
+                                    onChange={(e) =>
+                                        setData(
+                                            "password_confirmation",
+                                            e.target.value
+                                        )
+                                    }
                                 />
 
                                 <InputError
@@ -180,7 +198,7 @@ const Register = () => {
                                 />
                             </div>
                             <div className="mt-4">
-                            <div className="flex items-center justify-end mt-6">
+                                <div className="flex items-center justify-end mt-6">
                                     <DefaultButton
                                         className="dark:bg-primary-dark"
                                         disabled={processing}
