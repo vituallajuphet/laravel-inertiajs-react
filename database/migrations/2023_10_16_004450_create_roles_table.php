@@ -15,7 +15,8 @@ return new class extends Migration
         // Schema::dropIfExists('roles');
         Schema::create('roles', function (Blueprint $table) {
             $table->uuid('role_id')->primary();
-            $table->string('role_type');
+            $table->string('role_type')->nullable();
+            $table->string('role_name');
             $table->uuid('user_id');
             $table->timestamps();
         });

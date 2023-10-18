@@ -30,17 +30,17 @@ Route::middleware('guest')->group(function () {
             ->name('merchant.login');
         Route::post('/register', [RegisterController::class, 'store'])
             ->name('merchant.store');
+       
     });
 });
 
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group([
-        'prefix' => 'sellers',
+        'prefix' => 'merchant',
     ], function () {
-        Route::get('/dashboard', function () {
-            return Inertia::render('Seller/Dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [RegisterController::class, 'dashboard'])
+            ->name('merchant.dashboard');
         Route::get('/', function () {
             return Inertia::render('Seller/Dashboard');
         })->name('dashboard');

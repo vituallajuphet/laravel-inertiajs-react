@@ -54,12 +54,12 @@ const Register = () => {
                                          }} 
                                          label='Individual' 
                                          name="seller_type" 
-                                         value="Individuals"
+                                         value="Individual"
                                     />
                                     <RadioButton 
                                         label='Corporate' 
                                         name='seller_type' 
-                                        value="Individuals"
+                                        value="Corporate"
                                         onChange={(e) => {
                                             setData("seller_type",  e.target.value)
                                         }} 

@@ -10,12 +10,12 @@ trait Utils {
     protected function intendedRoute($route = '')
     {
         $HOME = '/dashboard';
-        $intendedRoute = !isEmpty($route) ? $route : Auth::user()->role->role_type.$HOME;
+        $intendedRoute = !isEmpty($route) ? $route : Auth::user()->role->role_name.$HOME;
         return redirect()->intended($intendedRoute);
     }
 
     protected function getIntendedRoute () {
-        return Auth::user()->role->role_type.'/dashboard';
+        return Auth::user()->role->role_name.'/dashboard';
     }
 
 }

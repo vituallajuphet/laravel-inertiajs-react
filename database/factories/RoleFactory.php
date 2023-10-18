@@ -18,7 +18,8 @@ class RoleFactory extends Factory
     {
         return [
             'role_id' => fake()->unique()->uuid(),
-            'role_type' => fake()->randomElement(['admin', 'seller', 'customer']),
+            'role_name' => fake()->randomElement(['admin', 'seller', 'customer']),
+            'role_type' => fake()->randomElement(['corporate', 'individual', null]),
         ];
     }
 }

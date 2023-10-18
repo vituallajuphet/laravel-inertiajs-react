@@ -17,7 +17,7 @@ class IsAdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        $is_admin = Auth::user()->role->role_type === 'admin';
+        $is_admin = Auth::user()->role->role_name === 'admin';
 
         if(!Auth::check() || !$is_admin) {
             abort(403);

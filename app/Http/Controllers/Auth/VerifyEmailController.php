@@ -19,7 +19,7 @@ class VerifyEmailController extends Controller
     {
         $intendedRoute = $this->getIntendedRoute().'?verified=1';
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended($this->intendedRoute($intendedRoute));
+            return $this->intendedRoute($intendedRoute);
 
         }
 
@@ -27,7 +27,7 @@ class VerifyEmailController extends Controller
             event(new Verified($request->user()));
         }
 
-        return redirect()->intended($this->intendedRoute($intendedRoute));
+        return  $this->intendedRoute($intendedRoute);
 
     }
 }

@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
         $role = $user->role ?: new Role();
-        $role->role_type = 'seller';
+        $role->role_name = 'seller';
         $user->role()->save($role);
 
         event(new Registered($user));

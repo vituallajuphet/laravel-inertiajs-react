@@ -34,19 +34,21 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'seller_type' => ['required', 'string' , 'max:255', new  SellerTypeRule],
             'email' => 'required|string|email|max:255|unique:'.User::class,
+            'phone' => 'required|string|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
-        dd($request);
 
         $user = User::create([
             'name' => ucfirst($request->name),
             'email' => $request->email,
+            'phone' => $request->phone,
             'username' => $request->username,
             'password' => Hash::make($request->password),
+            'username' => ucfirst($request->name).time(),
         ]);
         $role = $user->role ?: new Role();
-        $role->role_type = 'seller';
+        $role->role_name = 'seller';
+        $role->role_type = $request->seller_type;
         $user->role()->save($role);
 
         event(new Registered($user));
@@ -54,6 +56,10 @@ class RegisterController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function dashboard() {
+        return Inertia::render('Seller/Authenticated/Dashboard');
     }
 
     /**
