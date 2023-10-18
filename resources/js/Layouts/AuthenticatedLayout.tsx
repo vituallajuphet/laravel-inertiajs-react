@@ -92,11 +92,41 @@ export default function Authenticated(props: any) {
                             <div>header</div>
                             <div>
                                 <div className="flex flex-row items-center">
-                                <Link href="/" className="mr-2">
-                                    <div className="rounded-full p-2 flex items-center bg-[#ffd4aa]">
-                                        <FaEnvelope className="text-primary-default" size={17}/>
-                                    </div>
-                                </Link>
+                                
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md mr-2 cursor-pointer">
+                                            <div className="rounded-full p-2 flex items-center bg-[#ffd4aa]">
+                                                <FaEnvelope className="text-primary-default" size={17}/>
+                                            </div>
+                                        </span>
+                                    </Dropdown.Trigger>
+
+                                    <Dropdown.Content
+                                        className={'w-[300px] top-12'}
+                                    >
+                                        <div className="">
+                                            <div className="py-2 px-3 border-b border-gray-100">
+                                                <h3 className="text-base font-bold text-primary-default">Messages</h3>
+                                            </div>
+                                            <div >
+                                                <div className="py-2 px-3 flex">
+                                                    <div className="h-12 w-12 rounded-full">
+                                                      <img src="https://demo.tailadmin.com/src/images/user/user-02.png"/>
+                                                      
+                                                    </div>
+                                                    <div className="flex flex-col text-gray-400 ml-3">
+                                                            <h6 className="text-sm font-medium text-black dark:text-white">
+                                                              Mariya Desoja
+                                                            </h6>
+                                                            <p className="text-sm">I like your confidence 💪</p>
+                                                            <p className="text-xs">2min ago</p>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Dropdown.Content>
+                                </Dropdown>
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
