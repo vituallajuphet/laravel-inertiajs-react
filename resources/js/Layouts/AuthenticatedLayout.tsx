@@ -3,7 +3,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useDarkSide } from "@/hooks/useTheme";
 import { asset } from "../asset";
@@ -17,6 +17,9 @@ import {
 } from "react-icons/fa";
 
 export default function Authenticated(props: any) {
+
+    const {post} =  useForm()
+
     const { user, header, children } = props;
     const { theme, setTheme } = useDarkSide();
 
@@ -32,13 +35,19 @@ export default function Authenticated(props: any) {
 
     useEffect(() => {}, []);
 
+
+    const logout = (e) => {
+        e.preventDefault();
+        route('merchant.logout')
+    }
+
     const cls =
         "flex flex-row items-center gap-4 font-bold text-lg hover:bg-gray-500 transition ease-out duration-200 p-2 rounded-sm";
 
     return (
         <div className="min-h-screen bg-red-200">
             <div className="min-h-screen flex-row flex">
-                <div className="bg-blue-200 max-w-[300px] w-full h-screen bg-gray-900 text-white p-6">
+                <div className="bg-blue-200 max-w-[300px] w-full h-screen bg-gray-900 text-white p-6 px-4">
                     <div>
                         <img
                             src={asset("/images/logo/logo-dark.png")}
@@ -72,7 +81,7 @@ export default function Authenticated(props: any) {
                                     </Link>
                                 </li>
                                 <li className="mt-2">
-                                    <Link href="/" className={cls}>
+                                    <Link as="button" href={route('merchant.logout')} method="post" className={cls}>
                                         <FaFile size={23} /> Reports
                                     </Link>
                                 </li>
@@ -80,9 +89,9 @@ export default function Authenticated(props: any) {
                         </div>
                     </div>
                 </div>
-                <div className="flex-1">
-                    <div className="bg-white w-full p-5">header</div>
-                    <div className="min-h-screen bg-green-200 flex items-center justify-center">
+                <div className="flex-1 h-screen flex flex-col">
+                    <div className="bg-white w-full p-5 sticky">header</div>
+                    <div className="flex-1 bg-green-200 flex items-center justify-center">
                         <main className="">
                             <div>Content here</div>
                         </main>

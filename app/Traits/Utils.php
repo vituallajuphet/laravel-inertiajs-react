@@ -10,7 +10,10 @@ trait Utils {
     protected function intendedRoute($route = '')
     {
         $HOME = '/dashboard';
-        $intendedRoute = !isEmpty($route) ? $route : Auth::user()->role->role_name.$HOME;
+
+        $userType = Auth::user()->role->role_name === 'seller' ? 'merchant' : Auth::user()->role->role_name;
+
+        $intendedRoute = !isEmpty($route) ? $route : $userType.$HOME;
         return redirect()->intended($intendedRoute);
     }
 

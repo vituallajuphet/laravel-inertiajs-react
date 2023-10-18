@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SellerGuest from "@/Layouts/SellerGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
@@ -7,12 +7,28 @@ import InputError from "@/Components/InputError";
 import Button from "@/Components/Button";
 import { FaBroadcastTower, FaFacebook, FaGoogle } from "react-icons/fa";
 import DefaultButton from "@/Components/DefaultButton";
+import Checkbox from "@/Components/Checkbox";
 
 const Login = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
-        phone: "",
         email: "",
+        password: "",
+        remember: false,
     });
+
+    useEffect(() => {
+        return () => {
+            reset("password");
+        };
+    }, []);
+
+    const submit = (e) => {
+        e.preventDefault();
+
+        post(route("merchant.store"));
+    };
+
+
     return (
         <SellerGuest>
             <Head title="Confirm Password" />
@@ -22,43 +38,18 @@ const Login = () => {
                         <h2 className="text-primary-default dark:text-primary-dark font-bold text-2xl">
                             Login Account
                         </h2>
-                        <form action="">
+                        <form action="" onSubmit={submit}>
                             <div className="mt-4">
                                 <InputLabel
-                                    htmlFor="Phone"
+                                    htmlFor="email"
                                     className="dark:text-white"
                                     value="Email Address"
                                 />
 
                                 <TextInput
                                     id="Phone"
-                                    type="number"
-                                    name="phone"
-                                    value={data.phone}
-                                    className="mt-1 block w-full"
-                                    autoComplete="email"
-                                    onChange={(e) =>
-                                        setData("phone", e.target.value)
-                                    }
-                                    required
-                                />
-
-                                <InputError
-                                    message={errors.phone}
-                                    className="mt-2"
-                                />
-                            </div>
-                            <div className="mt-4">
-                                <InputLabel
-                                    className="dark:text-white"
-                                    htmlFor="Email"
-                                    value="Password"
-                                />
-
-                                <TextInput
-                                    id="Email"
                                     type="email"
-                                    name="phone"
+                                    name="email"
                                     value={data.email}
                                     className="mt-1 block w-full"
                                     autoComplete="email"
@@ -69,13 +60,55 @@ const Login = () => {
                                 />
 
                                 <InputError
-                                    message={errors.phone}
+                                    message={errors.email}
                                     className="mt-2"
                                 />
+                            </div>
+                            <div className="mt-4">
+                                <InputLabel
+                                    className="dark:text-white"
+                                    htmlFor="password"
+                                    value="Password"
+                                />
+
+                                <TextInput
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    value={data.password}
+                                    className="mt-1 block w-full"
+                                    autoComplete="password"
+                                    onChange={(e) =>
+                                        setData("password", e.target.value)
+                                    }
+                                    required
+                                />
+
+                                <InputError
+                                    message={errors.password}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div className="block mt-4">
+                                <label className="flex items-center">
+                                    <Checkbox
+                                        name="remember"
+                                        checked={data.remember}
+                                        onChange={(e) =>
+                                            setData("remember", e.target.checked)
+                                        }
+                                    />
+                                    <span className="ml-2 text-sm text-gray-600">
+                                        Remember me
+                                    </span>
+                                </label>
+                            </div>
+                                <div className="block mt-4">
                                 <div className="flex items-center justify-end mt-6">
                                     <DefaultButton
                                         className="dark:bg-primary-dark"
                                         disabled={processing}
+                                        type='submit'
                                     >
                                         Login Account
                                     </DefaultButton>

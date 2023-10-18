@@ -11,7 +11,9 @@ use App\Traits\Utils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -45,17 +47,40 @@ class AuthenticatedSessionController extends Controller
 
     public function api_login (LoginRequest $request) {
 
+           
+        $this->ensureIsNotRateLimited();
         $request->validated($request->only(['email', 'password']));
 
-        if(!Auth::attempt($request->only(['email', 'password']))) {
-            return $this->error('', 'Credentials do not match', 401);
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
         }
+
         $user = User::where('email', $request->email)->first();
 
-        return $this->success([
-            'user' => $user,
-            'token' => $user->createToken('API Token')->plainTextToken
-        ]);
+        // return $this->success([
+        //     'user' => $user,
+        //     'token' => $user->createToken('API Token')->plainTextToken
+        // ]);
+
+
+     
+        // if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        //     RateLimiter::hit($this->throttleKey());
+
+        //     throw ValidationException::withMessages([
+        //         'email' => trans('auth.failed'),
+        //     ]);
+        // }
+
+        $email = $this->only('email');
+        $user = User::with('role')->where('email',  $email['email'])->first();
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        RateLimiter::clear($this->throttleKey());
 
     }
 

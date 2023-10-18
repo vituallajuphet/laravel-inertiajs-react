@@ -28,8 +28,9 @@ Route::middleware('guest')->group(function () {
             ->name('merchant.register');
         Route::get('/login', [AuthController::class, 'create'])
             ->name('merchant.login');
-        Route::post('/register', [RegisterController::class, 'store'])
+        Route::post('/login', [AuthController::class, 'store'])
             ->name('merchant.store');
+        
        
     });
 });
@@ -44,5 +45,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/', function () {
             return Inertia::render('Seller/Dashboard');
         })->name('dashboard');
+        Route::post('logout', [AuthController::class, 'destroy'])
+        ->name('merchant.logout');
     });
 });
