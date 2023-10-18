@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
@@ -6,6 +6,15 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useDarkSide } from "@/hooks/useTheme";
+import { asset } from "../asset";
+import {
+    FaChartLine,
+    FaFile,
+    FaJediOrder,
+    FaProductHunt,
+    FaSalesforce,
+    FaShopify,
+} from "react-icons/fa";
 
 export default function Authenticated(props: any) {
     const { user, header, children } = props;
@@ -20,6 +29,68 @@ export default function Authenticated(props: any) {
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    useEffect(() => {}, []);
+
+    const cls =
+        "flex flex-row items-center gap-4 font-bold text-lg hover:bg-gray-500 transition ease-out duration-200 p-2 rounded-sm";
+
+    return (
+        <div className="min-h-screen bg-red-200">
+            <div className="min-h-screen flex-row flex">
+                <div className="bg-blue-200 max-w-[300px] w-full h-screen bg-gray-900 text-white p-6">
+                    <div>
+                        <img
+                            src={asset("/images/logo/logo-dark.png")}
+                            alt="asd"
+                        />
+                    </div>
+                    <div className="mt-8">
+                        <div>
+                            <h3 className="text-xl font-bold">Menu</h3>
+                        </div>
+                        <div className="mt-8">
+                            <ul>
+                                <li>
+                                    <Link href="/" className={cls}>
+                                        <FaShopify size={23} /> Products
+                                    </Link>
+                                </li>
+                                <li className="mt-2">
+                                    <Link href="/" className={cls}>
+                                        <FaJediOrder size={23} /> Orders
+                                    </Link>
+                                </li>
+                                <li className="mt-2">
+                                    <Link href="/" className={cls}>
+                                        <FaSalesforce size={23} /> Sales
+                                    </Link>
+                                </li>
+                                <li className="mt-2">
+                                    <Link href="/" className={cls}>
+                                        <FaChartLine size={23} /> Analytics
+                                    </Link>
+                                </li>
+                                <li className="mt-2">
+                                    <Link href="/" className={cls}>
+                                        <FaFile size={23} /> Reports
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex-1">
+                    <div className="bg-white w-full p-5">header</div>
+                    <div className="min-h-screen bg-green-200 flex items-center justify-center">
+                        <main className="">
+                            <div>Content here</div>
+                        </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -106,7 +177,7 @@ export default function Authenticated(props: any) {
                             <button
                                 onClick={() =>
                                     setShowingNavigationDropdown(
-                                        (previousState) => !previousState
+                                        (previousState) => !previousState,
                                     )
                                 }
                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
