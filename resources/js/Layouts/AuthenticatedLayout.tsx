@@ -9,6 +9,9 @@ import { useDarkSide } from "@/hooks/useTheme";
 import { asset } from "../asset";
 import {
     FaChartLine,
+    FaChevronDown,
+    FaEnvelope,
+    FaFacebookMessenger,
     FaFile,
     FaJediOrder,
     FaProductHunt,
@@ -35,17 +38,11 @@ export default function Authenticated(props: any) {
 
     useEffect(() => {}, []);
 
-
-    const logout = (e) => {
-        e.preventDefault();
-        route('merchant.logout')
-    }
-
     const cls =
         "flex flex-row items-center gap-4 font-bold text-lg hover:bg-gray-500 transition ease-out duration-200 p-2 rounded-sm";
 
     return (
-        <div className="min-h-screen bg-red-200">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <div className="min-h-screen flex-row flex">
                 <div className="bg-blue-200 max-w-[300px] w-full h-screen bg-gray-900 text-white p-6 px-4">
                     <div>
@@ -90,9 +87,59 @@ export default function Authenticated(props: any) {
                     </div>
                 </div>
                 <div className="flex-1 h-screen flex flex-col">
-                    <div className="bg-white w-full p-5 sticky">header</div>
-                    <div className="flex-1 bg-green-200 flex items-center justify-center">
-                        <main className="">
+                    <div className="bg-white w-full p-2 px-2 sticky shadow-md border border-gray-300">
+                        <div className="flex justify-between items-center px-5">
+                            <div>header</div>
+                            <div>
+                                <div className="flex flex-row items-center">
+                                <Link href="/" className="mr-2">
+                                    <div className="rounded-full p-2 flex items-center bg-[#ffd4aa]">
+                                        <FaEnvelope className="text-primary-default" size={17}/>
+                                    </div>
+                                </Link>
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 pr-0 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white dark:bg-gray-900 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 dark:text-white"
+                                            >
+                                                {/* {user.name} */}
+                                                <div className="flex items-center text-gray-700">
+                                                    <div className="flex flex-col items-end">
+                                                        <span className="font-bold text-base">{user.name} Vitualla</span>
+                                                        <span className="text-gray-500">Janitor</span>
+                                                    </div>
+                                                    <div className="flex items-center ml-4">
+                                                        <div className="rounded-full w-12 h-12 bg-red-200 mr-2"></div>
+                                                        <FaChevronDown />
+                                                    </div>
+                                                </div>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+
+                                    <Dropdown.Content contentClasses="relative top-0 rounded-none">
+                                        <Dropdown.Link
+                                            href={route("adminprofile")}
+                                        >
+                                            Profile
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route("logout")}
+                                            method="post"
+                                            as="button"
+                                        >
+                                            Log Out
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex-1 flex overflow-y-scroll">
+                        <main className="h-[2000px] w-full p-8">
                             <div>Content here</div>
                         </main>
                     </div>
