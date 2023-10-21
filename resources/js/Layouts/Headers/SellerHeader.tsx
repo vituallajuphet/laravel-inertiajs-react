@@ -5,11 +5,14 @@ import { FaChevronDown, FaEnvelope } from "react-icons/fa";
 const SellerHeader = (props) => {
 
     const {user} = props
+    
 
     return (
         <div className="bg-white w-full p-2 px-2 sticky shadow-md border border-gray-300">
             <div className="flex justify-between items-center px-5">
-                <div>header</div>
+                <div>
+                    <h2 className="font-bold text-lg">Oraka Fashion Shop</h2>
+                </div>
                 <div>
                     <div className="flex flex-row items-center">
                         <Dropdown>

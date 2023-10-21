@@ -18,8 +18,8 @@ function Products(props) {
             <Head title="Products" />
             <div className="">
                 <div className="flex  items-center mb-6">
-                    <DefaultButton className='max-w-[160px]'>
-                        Add Button
+                    <DefaultButton size='md' className='max-w-[120px]'>
+                        Add Product
                     </DefaultButton>
                 </div>
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-200">
