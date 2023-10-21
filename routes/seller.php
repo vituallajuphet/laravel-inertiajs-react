@@ -9,6 +9,9 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Merchant\MerchantCollectionController;
+use App\Http\Controllers\Merchant\MerchantOrderController;
+use App\Http\Controllers\Merchant\MerchantProductController;
 use App\Http\Controllers\SellerAuth\AuthController;
 use App\Http\Controllers\SellerAuth\RegisterController;
 use Illuminate\Support\Facades\Route;
@@ -25,12 +28,13 @@ Route::middleware('guest')->group(function () {
         'prefix' => 'merchant',
     ], function () {
         Route::get('/register', [RegisterController::class, 'create'])
-            ->name('merchant.register');
+            ->name('merchant.create');
         Route::get('/login', [AuthController::class, 'create'])
             ->name('merchant.login');
         Route::post('/login', [AuthController::class, 'store'])
             ->name('merchant.store');
-        
+            Route::post('/register', [RegisterController::class, 'store'])
+            ->name('merchant.register');
        
     });
 });
@@ -42,6 +46,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     ], function () {
         Route::get('/dashboard', [RegisterController::class, 'dashboard'])
             ->name('merchant.dashboard');
+        Route::get('/products', [MerchantProductController::class, 'create'])
+        ->name('merchant.products');
+        Route::get('/orders', [MerchantOrderController::class, 'create'])
+        ->name('merchant.orders');
+        Route::get('/collections', [MerchantCollectionController::class, 'create'])
+        ->name('merchant.collections');
+
         Route::get('/', function () {
             return Inertia::render('Seller/Dashboard');
         })->name('dashboard');

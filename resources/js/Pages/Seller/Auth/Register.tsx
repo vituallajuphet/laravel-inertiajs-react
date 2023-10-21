@@ -34,7 +34,7 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("merchant.store"));
+        post(route("merchant.register"));
     };
 
     return (
