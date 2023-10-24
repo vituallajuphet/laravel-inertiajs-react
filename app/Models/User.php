@@ -5,8 +5,10 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -57,4 +59,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function role () : HasOne {
         return $this->hasOne(Role::class, 'user_id', 'user_id');
     }
+
+    public function store () : HasOne {
+        return $this->hasOne(Store::class, 'user_id', 'user_id');
+    }
+
+    public function products () : HasManyThrough {
+        return $this->hasManyThrough(Product::class, Store::class, 'user_id', 'store_id', 'user_id', 'store_id');
+    }
+
 }

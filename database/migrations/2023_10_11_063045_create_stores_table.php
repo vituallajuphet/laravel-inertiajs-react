@@ -19,9 +19,14 @@ return new class extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->uuid('store_id')->primary();
             $table->string('store_name');
+            $table->uuid('user_id');
             $table->string('store_nickname');
             $table->string('status');
             $table->timestamps();
+        });
+
+        Schema::table('stores', function($table) {
+            $table->foreign('user_id')->references('user_id')->on('users');
         });
     }
 

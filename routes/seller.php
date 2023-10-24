@@ -44,19 +44,29 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group([
         'prefix' => 'merchant',
     ], function () {
-        Route::get('/dashboard', [RegisterController::class, 'dashboard'])
-            ->name('merchant.dashboard');
-        Route::get('/products', [MerchantProductController::class, 'create'])
-        ->name('merchant.products');
-        Route::get('/orders', [MerchantOrderController::class, 'create'])
-        ->name('merchant.orders');
-        Route::get('/collections', [MerchantCollectionController::class, 'create'])
-        ->name('merchant.collections');
 
-        Route::get('/', function () {
-            return Inertia::render('Seller/Dashboard');
-        })->name('dashboard');
-        Route::post('logout', [AuthController::class, 'destroy'])
-        ->name('merchant.logout');
+        Route::get('/registerstore', function () {
+            return Inertia::render('Seller/Authenticated/RegisterStore');
+        })->name('merchant.registerstore');
+
+        Route::group(['middleware' => ['has_store']], function () {
+            Route::get('/', function () {
+                return Inertia::render('Seller/Dashboard');
+            })->name('dashboard');
+            Route::get('/dashboard', [RegisterController::class, 'dashboard'])
+                ->name('merchant.dashboard');
+            Route::get('/products', [MerchantProductController::class, 'create'])
+            ->name('merchant.products');
+            Route::get('/orders', [MerchantOrderController::class, 'create'])
+            ->name('merchant.orders');
+            Route::get('/collections', [MerchantCollectionController::class, 'create'])
+            ->name('merchant.collections');
+            Route::post('logout', [AuthController::class, 'destroy'])
+            ->name('merchant.logout');
+        });
+       
     });
+
+    
+
 });
