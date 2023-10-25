@@ -3,7 +3,12 @@ import regions from './jsons/region.json'
 import provinces from './jsons/province.json'
 import cities from './jsons/city.json'
 import brgy from './jsons/barangay.json'
+
 import _ from 'lodash'
+import InputLabel from '../InputLabel'
+
+
+const selectCls = 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1';
 
 const AddressForm = () => {
 
@@ -13,6 +18,8 @@ const AddressForm = () => {
 
   const handleChange = (value?: string) =>  {
         setRegion(regions.find(reg => reg?.region_code === value) )
+        setSelectedProvince({})
+        setSelectedCity({})
   }
 
   const memProvinces = useMemo(() => {
@@ -47,45 +54,79 @@ const AddressForm = () => {
 
   return (
     <div>
-        <div className='flex-col flex'>
-            <label htmlFor="region">region</label>
-            <select id='region' name='region' onChange={(e) => {
-                handleChange(e.target.value)
-            }}>
-               {regions.map(region => {
-                 return <option key={region.id} value={region.region_code}>{region.region_name}</option>
-               })}
-            </select>
+        <div className='flex flex-row items-center justify-between'>
+          <div className='flex-col flex w-[48%]'>
+              <InputLabel
+                  htmlFor="region"
+                  className="dark:text-white"
+                  value="Region"
+              />
+              <select className={selectCls} required id='region' name='region' onChange={(e) => {
+                  handleChange(e.target.value)
+              }}>
+                  <option value=''>Select Region</option>
+                {regions.map(region => {
+                  return <option key={region.id} value={region.region_code}>{region.region_name}</option>
+                })}
+              </select>
+          </div>
+          <div className='flex-col flex w-[48%]'>
+              <InputLabel
+                  htmlFor="province"
+                  className="dark:text-white"
+                  value="Province"
+              />
+              <select className={selectCls} required id='province' name='province' onChange={(e) => {
+                  handleChangeProvince(e.target.value)
+              }}>
+              <option value=''>Select Province</option>
+                {memProvinces.map(province => {
+                  return <option key={province.province_code} value={province.province_code}>{province.province_name}</option>
+                })}
+              </select>
+          </div>
         </div>
-        <div className='flex-col flex mt-3'>
-            <label htmlFor="province">Province</label>
-            <select id='province' name='province' onChange={(e) => {
-                handleChangeProvince(e.target.value)
-            }}>
-               {memProvinces.map(province => {
-                 return <option key={province.province_code} value={province.province_code}>{province.province_name}</option>
-               })}
-            </select>
+        <div className='flex flex-row items-center justify-between mt-4'>
+          <div className='flex-col flex w-[48%]'>
+            <InputLabel
+                  htmlFor="city_municipality"
+                  className="dark:text-white"
+                  value="City / Municipality"
+              />
+              <select className={selectCls} required id='city_municipality' name='city_municipality' onChange={(e) => {
+                  handleChangeCity(e.target.value)
+              }}>
+                <option value=''>Select City / Municipality</option>
+                {memCity.map(city => {
+                  return <option key={city.city_code} value={city.city_code}>{city.city_name}</option>
+                })}
+              </select>
+          </div>
+          <div className='flex-col flex w-[48%]'>
+              <InputLabel
+                  htmlFor="barangay"
+                  className="dark:text-white"
+                  value="Barangay"
+              />
+              <select className={selectCls} required id='barangay' name='barangay' onChange={(e) => {
+                  // handleChange('city', e.target.value)
+              }}>
+                  <option value=''>Select Barangay</option>
+                {memBarangay.map(bg => {
+                  return <option key={bg.brgy_code} value={bg.brgy_code}>{bg.brgy_name}</option>
+                })}
+              </select>
+          </div>
         </div>
-        <div className='flex-col flex mt-3'>
-            <label htmlFor="city_municipality">City / Municipality</label>
-            <select id='city_municipality' name='city_municipality' onChange={(e) => {
-                handleChangeCity(e.target.value)
-            }}>
-               {memCity.map(city => {
-                 return <option key={city.city_code} value={city.city_code}>{city.city_name}</option>
-               })}
-            </select>
-        </div>
-        <div className='flex-col flex mt-3'>
-            <label htmlFor="barangay">Baragay</label>
-            <select id='barangay' name='barangay' onChange={(e) => {
-                // handleChange('city', e.target.value)
-            }}>
-               {memBarangay.map(bg => {
-                 return <option key={bg.brgy_code} value={bg.brgy_code}>{bg.brgy_name}</option>
-               })}
-            </select>
+        <div className='flex flex-row items-center justify-between mt-4'>
+          <div className='flex-col flex w-[48%]'>
+             <InputLabel
+                htmlFor="postal_code"
+                className="dark:text-white"
+                value="Postal Code"
+            />
+            <input name='postal_code' className={selectCls} type='number' placeholder='Enter Postal Code'/>
+          </div>
         </div>
     </div>
   )

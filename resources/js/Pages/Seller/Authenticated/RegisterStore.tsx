@@ -16,12 +16,12 @@ const RegisterStore = () => {
         store_name: "",
         store_nickname: "",
         address: {
-            street:'',
-            city:'',
-            barangay: '',
-            country:'Philippines',
-            postal_code: ''
-        }
+            street: "",
+            city: "",
+            barangay: "",
+            country: "Philippines",
+            postal_code: "",
+        },
     });
 
     const [phonenumber, setPhonenumber] = useState<any>();
@@ -35,167 +35,143 @@ const RegisterStore = () => {
         <SellerGuest>
             <Head title="Confirm Password" />
             <div className="min-h-screen bg-red-50 dark:bg-gray-900 flex flex-col pt-6 ">
-                <div className="flex justify-between p-6 sm:max-w-[1200px] w-full mx-auto mt-20">
-                    <div className="bg-white dark:bg-gray-900 dark:border dark:border-white dark:shadow-none p-8 shadow-md rounded-md sm:max-w-[40%] w-full">
-                        <h2 className="text-primary-default dark:text-primary-dark font-bold text-2xl">
-                            Your Store Information
+                <div className="flex justify-center p-6 sm:max-w-[1200px] w-full mx-auto mt-20">
+                    <div className="bg-white dark:bg-gray-900 dark:border dark:border-white dark:shadow-none p-8 shadow-md rounded-md sm:max-w-[60%] w-full">
+                        <div className="text-center mb-4">
+                            <h2 className="text-primary-default dark:text-primary-dark font-bold text-2xl">
+                                Business Registration Form
+                            </h2>
+                            <div className="h-[1px] mt-6 px- bg-gray-200 w-full"></div>
+                        </div>
+                        <h2 className="text-primary-default dark:text-primary-dark font-bold text-lg">
+                            Business Information
                         </h2>
-
                         <form action="" onSubmit={handleSubmit}>
-                            <AddressForm />
-                            {/* <div className="mt-8">
-                                <InputLabel
-                                    htmlFor="seller_type"
-                                    className="dark:text-white"
-                                    value="Select Store Type"
-                                />
-
-                                <div className="flex flex-row mt-2 gap-4">
-                                    <RadioButton
-                                        onChange={(e) => {
-                                            setData(
-                                                "seller_type",
-                                                e.target.value
-                                            );
-                                        }}
-                                        label="Individual"
-                                        name="seller_type"
-                                        value="Individual"
-                                    />
-                                    <RadioButton
-                                        label="Corporate"
-                                        name="seller_type"
-                                        value="Corporate"
-                                        onChange={(e) => {
-                                            setData(
-                                                "seller_type",
-                                                e.target.value
-                                            );
-                                        }}
-                                    />
-                                </div>
-                                <InputError
-                                    message={errors.seller_type}
-                                    className="mb-4"
-                                />
-                            </div> */}
-                           
-                            <div className="mt-4">
-                                <div className="flex items-center justify-end mt-6">
-                                    <DefaultButton
-                                        className="dark:bg-primary-dark"
-                                        disabled={processing}
-                                    >
-                                        Register
-                                    </DefaultButton>
-                                </div>
+                            <div className="px-2">
                                 <div className="mt-4">
-                                    <div className="text-center text-gray-700 dark:text-white">
-                                        or
+                                    <InputLabel
+                                        htmlFor="seller_type"
+                                        className="dark:text-white"
+                                        value="Business Name *"
+                                    />
+                                    <TextInput
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        value={data.name}
+                                        className="mt-1 block w-full"
+                                        autoComplete="email"
+                                        onChange={(e) =>
+                                            setData("name", e.target.value)
+                                        }
+                                        required
+                                    />
+                                    <InputError
+                                        message={errors.name}
+                                        className="mt-2"
+                                    />
+                                </div>
+                                <div className="flex items-center justify-between mt-4">
+                                    <div className="w-[48%]">
+                                        <InputLabel
+                                            htmlFor="seller_type"
+                                            className="dark:text-white"
+                                            value="Business Email Address*"
+                                        />
+                                        <TextInput
+                                            id="name"
+                                            type="text"
+                                            name="name"
+                                            value={data.name}
+                                            className="mt-1 block w-full"
+                                            autoComplete="email"
+                                            onChange={(e) =>
+                                                setData("name", e.target.value)
+                                            }
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.name}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="w-[48%]">
+                                        <InputLabel
+                                            htmlFor="seller_type"
+                                            className="dark:text-white"
+                                            value="Website"
+                                        />
+                                        <TextInput
+                                            id="name"
+                                            type="text"
+                                            name="name"
+                                            value={data.name}
+                                            className="mt-1 block w-full"
+                                            autoComplete="email"
+                                            onChange={(e) =>
+                                                setData("name", e.target.value)
+                                            }
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.name}
+                                            className="mt-2"
+                                        />
                                     </div>
                                 </div>
-                                <div className="flex flex-row justify-between gap-4 mt-6">
-                                    <Button
+                                <div className="h-[1px] mt-6 px- bg-gray-200 w-full"></div>
+                            </div>
+
+                            <div className="mt-4">
+                                <h2 className="text-primary-default dark:text-primary-dark font-bold text-lg">
+                                    Business Address
+                                </h2>
+                            </div>
+
+                            <div className="px-2">
+                                <div className="mt-4">
+                                    <InputLabel
+                                        htmlFor="seller_type"
                                         className="dark:text-white"
-                                        type="button"
-                                        icon={
-                                            <FaFacebook
-                                                size={17}
-                                                color="#176fb0"
-                                            />
+                                        value="Business Street Address"
+                                    />
+
+                                    <TextInput
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        value={data.name}
+                                        className="mt-1 block w-full"
+                                        autoComplete="email"
+                                        onChange={(e) =>
+                                            setData("name", e.target.value)
                                         }
-                                        variant="outlined"
-                                    >
-                                        Facebook
-                                    </Button>
-                                    <Button
-                                        variant="outlined"
-                                        className="dark:text-white"
-                                        type="button"
-                                        icon={
-                                            <FaGoogle size={16} color="red" />
-                                        }
-                                    >
-                                        Google
-                                    </Button>
+                                        required
+                                    />
+
+                                    <InputError
+                                        message={errors.name}
+                                        className="mt-2"
+                                    />
                                 </div>
-                                <div className="flex mt-6 justify-center gap-2 dark:text-white">
-                                    <span>Already have an account?</span>
-                                    <Link
-                                        href={route("merchant.login")}
-                                        className="font-bold text-primary-default dark:text-white"
+
+                                <div className="mt-4">
+                                    <AddressForm />
+                                </div>
+                            </div>
+                             
+                            <div className="mt-4 px-2">
+                            <div className="h-[1px] mt-6 px- bg-gray-200 w-full"></div>
+                                <div className="flex items-center justify-start mt-6">
+                                    <DefaultButton
+                                        className="dark:bg-primary-dark max-w-[200px]"
+                                        disabled={processing}
                                     >
-                                        Login Here
-                                    </Link>
+                                        Register MY Store
+                                    </DefaultButton>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <div className="flex-1 p-6 px-16 text-gray-900 dark:text-white">
-                        <div>
-                            <h2 className="text-4xl font-bold text-primary-default dark:text-primary-dark">
-                                Sample Marketplace
-                            </h2>
-                            <h3 className="text-2xl mt-3 text-primary-default dark:text-primary-dark">
-                                Grow your business and Sell more
-                            </h3>
-                        </div>
-                        <div className="mt-6">
-                            <div className="flex items-center justify-between gap-4">
-                                <div className="border flex dark:border-primary-dark border-primary-default rounded-full flex justify-center items-center w-14 h-14">
-                                    <FaBroadcastTower
-                                        className="text-primary-default dark:text-primary-dark"
-                                        size={25}
-                                    />
-                                </div>
-                                <div className="flex flex-col flex-1">
-                                    <h3 className="text-lg font-bold mt-3 text-primary-default dark:text-primary-dark">
-                                        Uprising E-Commerce Platform
-                                    </h3>
-                                    <p>
-                                        Lorem ipsum dolor sit, amet consectetur
-                                        adipisicing elit. Cum dolores veniam
-                                        neque, eum est.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-between gap-4 mt-4">
-                                <div className="border flex dark:border-primary-dark border-primary-default  rounded-full flex justify-center items-center w-14 h-14">
-                                    <FaBroadcastTower
-                                        className="text-primary-default dark:text-primary-dark"
-                                        size={25}
-                                    />
-                                </div>
-                                <div className="flex flex-col flex-1">
-                                    <h3 className="text-lg font-bold mt-3 text-primary-default dark:text-primary-dark">
-                                        Uprising E-Commerce Platform
-                                    </h3>
-                                    <p>
-                                        Lorem ipsum dolor sit, amet consectetur
-                                        adipisicing elit. Cum dolores veniam
-                                        neque, eum est.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-between gap-4 mt-4">
-                                <div className="border flex dark:border-primary-dark border-primary-default rounded-full flex justify-center items-center w-14 h-14">
-                                    <FaBroadcastTower
-                                        className="text-primary-default dark:text-primary-dark"
-                                        size={25}
-                                    />
-                                </div>
-                                <div className="flex flex-col flex-1">
-                                    <h3 className="text-lg font-bold mt-3 text-primary-default dark:text-primary-dark">
-                                        Uprising E-Commerce Platform
-                                    </h3>
-                                    <p>
-                                        Lorem ipsum dolor sit, amet consectetur
-                                        adipisicing elit. Cum dolores veniam
-                                        neque, eum est.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
