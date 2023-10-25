@@ -5,6 +5,7 @@ export default forwardRef(function TextInput(
     ref
 ) {
     const input = ref ? ref : useRef();
+    const isDisabledCls = props.disabled ? 'text-gray-500 border-gray-200 bg-gray-100' : 'border-gray-300'
 
     useEffect(() => {
         if (isFocused) {
@@ -16,10 +17,9 @@ export default forwardRef(function TextInput(
         <input
             {...props}
             type={type}
-            className={
-                "border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm " +
-                className
-            }
+            className={` focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                ${className} 
+                ${isDisabledCls}`}
             ref={input}
         />
     );
