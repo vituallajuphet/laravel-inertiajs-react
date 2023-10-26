@@ -1,21 +1,28 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { brgy, cities, provinces, regions } from "./data";
+import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import { brgy as brgyies, cities, provinces, regions } from "./data";
 import _ from "lodash";
 import InputLabel from "../InputLabel";
 import { AddressProps } from "./types";
 import { useAddressValidation } from "./hooks/useAddress";
 
 const AddressForm = (props: AddressProps) => {
-    const { onChange } = props;
+    const { onChange, value } = props;
 
     const selectCls =
         "border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1";
 
-    const [region, setRegion] = useState<any>({});
-    const [selectedProvince, setSelectedProvince] = useState<any>({});
-    const [selectedCity, setSelectedCity] = useState<any>({});
-    const [selectedBarangay, setSelectedBarangay] = useState<any>({});
-    const [postalCode, setPostalCode] = useState<string>("");
+    const [selectedValue, setSelectedValue] = useState<any>({});
+    const [error, setError] = useState<any>({});
+
+    useEffect(() => {
+        if (!_.isEqual(selectedValue, value)) {
+            setSelectedValue(value);
+        }
+    }, [value]);
+
+    const { brgy, city, postal, province, region } = value;
+
+    const changed = useRef<any>(false);
 
     const memProvinces = useMemo(() => {
         if (!region?.region_code) return [];
@@ -23,59 +30,51 @@ const AddressForm = (props: AddressProps) => {
             (pro) => pro.region_code === region?.region_code
         );
         return _.sortBy(xx, ["province_name"]);
-    }, [region?.region_code]);
+    }, [region]);
 
     const memCity = useMemo(() => {
-        if (!selectedProvince?.province_code) return [];
+        if (!province?.province_code) return [];
         const xx = cities.filter(
-            (city) => city.province_code === selectedProvince.province_code
+            (city) => city.province_code === province.province_code
         );
         return _.sortBy(xx, ["city_name"]);
-    }, [selectedProvince]);
+    }, [province]);
 
     const memBarangay = useMemo(() => {
-        if (!selectedCity?.city_code) return [];
+        if (!city?.city_code) return [];
         //@ts-ignore
-        const xx = brgy.filter((bg) => bg.city_code === selectedCity.city_code);
+        const xx = brgyies.filter((bg: any) => bg.city_code === city.city_code);
         return _.sortBy(xx, ["brgy_name"]);
-    }, [selectedCity]);
+    }, [city]);
 
-    const handleChange = (value?: string) => {
-        setRegion(regions.find((reg) => reg?.region_code === value));
-        setSelectedProvince({});
-        setSelectedCity({});
-    };
-
-    const handleChangeProvince = (value?: string) => {
-        setSelectedProvince(
-            memProvinces.find((pro) => pro?.province_code === value)
-        );
-    };
-
-    const handleChangeCity = (value?: string) => {
-        setSelectedCity(cities.find((city) => city?.city_code === value));
-    };
-
-    const handleChangeBarangay = (value?: string) => {
-        setSelectedBarangay(memBarangay.find((bg) => bg?.brgy_code === value));
-    };
-
-    const { data, error } = useAddressValidation({
-        region,
-        province: selectedProvince,
-        barangay: selectedBarangay,
-        city: selectedCity,
-        postal: postalCode,
-    });
-
-    useEffect(() => {
+    const handleChanged = (key: string, value: any) => {
+        const newValue = {
+            ...selectedValue,
+            [key]: getValueByCode(key, value),
+        };
+        setSelectedValue(newValue);
         if (onChange) {
             onChange({
-                data: data,
-                error: error,
+                data: newValue,
+                error: useAddressValidation(newValue),
             });
         }
-    }, [data, error]);
+    };
+
+    const getValueByCode = (key: string, value: any) => {
+        switch (key) {
+            case "region":
+                return regions.find((reg) => reg?.region_code === value);
+            case "province":
+                return memProvinces.find((pro) => pro?.province_code === value);
+            case "city":
+                return cities.find((city) => city?.city_code === value);
+            case "brgy":
+                return memBarangay.find((bg) => bg?.brgy_code === value);
+            case "postal":
+                return value;
+        }
+    };
 
     return (
         <div>
@@ -92,7 +91,7 @@ const AddressForm = (props: AddressProps) => {
                         id="region"
                         name="region"
                         onChange={(e) => {
-                            handleChange(e.target.value);
+                            handleChanged("region", e.target.value);
                         }}
                     >
                         <option value="">Select Region</option>
@@ -120,7 +119,7 @@ const AddressForm = (props: AddressProps) => {
                         id="province"
                         name="province"
                         onChange={(e) => {
-                            handleChangeProvince(e.target.value);
+                            handleChanged("province", e.target.value);
                         }}
                     >
                         <option value="">Select Province</option>
@@ -150,7 +149,7 @@ const AddressForm = (props: AddressProps) => {
                         id="city_municipality"
                         name="city_municipality"
                         onChange={(e) => {
-                            handleChangeCity(e.target.value);
+                            handleChanged("city", e.target.value);
                         }}
                     >
                         <option value="">Select City / Municipality</option>
@@ -178,7 +177,7 @@ const AddressForm = (props: AddressProps) => {
                         id="barangay"
                         name="barangay"
                         onChange={(e) => {
-                            handleChangeBarangay(e.target.value);
+                            handleChanged("brgy", e.target.value);
                         }}
                     >
                         <option value="">Select Barangay</option>
@@ -202,9 +201,9 @@ const AddressForm = (props: AddressProps) => {
                     <input
                         name="postal_code"
                         className={selectCls}
-                        value={postalCode}
+                        value={postal}
                         onChange={(e) => {
-                            setPostalCode(e.target.value);
+                            handleChanged("postal", e.target.value);
                         }}
                         type="number"
                         placeholder="Enter Postal Code"
@@ -215,4 +214,4 @@ const AddressForm = (props: AddressProps) => {
     );
 };
 
-export default AddressForm;
+export default memo(AddressForm);

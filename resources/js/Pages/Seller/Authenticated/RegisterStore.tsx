@@ -33,18 +33,23 @@ const RegisterStore = (props: any) => {
         business_name: "",
         business_street: "",
         address: {
-            street: "",
-            city: "",
-            barangay: "",
-            country: "Philippines",
-            postal_code: "",
+            brgy: {},
+            region: {},
+            city: {},
+            province: {},
+            postal: "",
         },
     });
 
     const { isValidated } = useValidator(data, {
         store_name: ["required"],
         business_name: ["required"],
-        address: ["required"],
+        address: [
+            "required",
+            {
+                postal: "min|4",
+            },
+        ],
         business_street: ["required"],
     });
 
@@ -53,10 +58,7 @@ const RegisterStore = (props: any) => {
         post(route("merchant.register"));
     };
 
-    // useEffect(() => {
-    //     setData('email', user.email)
-    //     setData('', user.email)
-    // }, [user])
+    console.log("renderered");
 
     return (
         <SellerGuest>
@@ -153,7 +155,7 @@ const RegisterStore = (props: any) => {
                                                     autoComplete="email"
                                                     onChange={(e) =>
                                                         setData(
-                                                            "email",
+                                                            "business_street",
                                                             e.target.value
                                                         )
                                                     }
@@ -213,12 +215,12 @@ const RegisterStore = (props: any) => {
                                                 id="name"
                                                 type="text"
                                                 name="name"
-                                                value={data.name}
+                                                value={data.business_street}
                                                 className="mt-1 block w-full"
-                                                autoComplete="email"
+                                                autoComplete="business_street"
                                                 onChange={(e) =>
                                                     setData(
-                                                        "name",
+                                                        "business_street",
                                                         e.target.value
                                                     )
                                                 }
@@ -233,8 +235,9 @@ const RegisterStore = (props: any) => {
 
                                         <div className="mt-4">
                                             <AddressForm
+                                                value={data.address}
                                                 onChange={(e) => {
-                                                    console.log("eeeeee", e);
+                                                    setData("address", e.data);
                                                 }}
                                             />
                                         </div>
