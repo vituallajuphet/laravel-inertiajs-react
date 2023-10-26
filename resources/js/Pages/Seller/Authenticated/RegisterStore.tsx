@@ -12,6 +12,7 @@ import DefaultButton from "@/Components/DefaultButton";
 import AddressForm from "@/Components/AddressForm/AddressForm";
 import ImageUploader from "@/Components/ImageUploader";
 import { ID_types } from "@/data";
+import { useValidator } from "@/utils/hooks";
 
 const tabsClass = {
     base: "w-8 h-8 rounded-full  text-gray-500 flex items-center justify-center font-bold border-gray-200 border-2 cursor-pointer",
@@ -30,6 +31,7 @@ const RegisterStore = (props: any) => {
         email: user.email,
         name: user.name,
         business_name: "",
+        business_street: "",
         address: {
             street: "",
             city: "",
@@ -37,6 +39,13 @@ const RegisterStore = (props: any) => {
             country: "Philippines",
             postal_code: "",
         },
+    });
+
+    const { isValidated } = useValidator(data, {
+        store_name: ["required"],
+        business_name: ["required"],
+        address: ["required"],
+        business_street: ["required"],
     });
 
     const handleSubmit = (e) => {
