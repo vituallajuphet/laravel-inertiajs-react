@@ -28,7 +28,6 @@ const Login = () => {
         post(route("merchant.store"));
     };
 
-
     return (
         <SellerGuest>
             <Head title="Confirm Password" />
@@ -36,7 +35,7 @@ const Login = () => {
                 <div className="flex justify-between p-6 sm:max-w-[1200px] w-full mx-auto mt-20">
                     <div className="bg-white dark:bg-gray-900 dark:border dark:border-white dark:shadow-none p-8 shadow-md rounded-md sm:max-w-[40%] w-full">
                         <h2 className="text-primary-default dark:text-primary-dark font-bold text-2xl">
-                            Login Account
+                            Login Seller Account
                         </h2>
                         <form action="" onSubmit={submit}>
                             <div className="mt-4">
@@ -95,7 +94,10 @@ const Login = () => {
                                         name="remember"
                                         checked={data.remember}
                                         onChange={(e) =>
-                                            setData("remember", e.target.checked)
+                                            setData(
+                                                "remember",
+                                                e.target.checked
+                                            )
                                         }
                                     />
                                     <span className="ml-2 text-sm text-gray-600">
@@ -103,12 +105,12 @@ const Login = () => {
                                     </span>
                                 </label>
                             </div>
-                                <div className="block mt-4">
+                            <div className="block mt-4">
                                 <div className="flex items-center justify-end mt-6">
                                     <DefaultButton
                                         className="dark:bg-primary-dark"
                                         disabled={processing}
-                                        type='submit'
+                                        type="submit"
                                     >
                                         Login Account
                                     </DefaultButton>

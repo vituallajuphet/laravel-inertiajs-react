@@ -7,37 +7,14 @@ import InputError from "@/Components/InputError";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styled from "styled-components";
 
-const ID_types = [
-    "ACR/ICR",
-    "Driver’s License",
-    "GSIS e-Card",
-    "Integrated Bar of the Philippines",
-    "Maritime Industry Authority (MARINA) ID",
-    "NCDA ID",
-    "Passport",
-    "Postal ID (PVC Plastic Card)",
-    "PRC ID",
-    "School ID",
-    "Senior Citizen Card",
-    "SSS Card",
-    "Unified Multi-purpose ID",
-    "Voter’s ID",
-    "Philippine Identification System (PhilSys) ID	",
-];
-
-import {
-    FaArrowRight,
-    FaBroadcastTower,
-    FaFacebook,
-    FaGoogle,
-} from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import DefaultButton from "@/Components/DefaultButton";
-import RadioButton from "@/Components/RadioButton";
-import Phonenumber from "@/Components/Phonenumber";
 import AddressForm from "@/Components/AddressForm/AddressForm";
+import ImageUploader from "@/Components/ImageUploader";
+import { ID_types } from "@/data";
 
 const tabsClass = {
-    base: "w-8 h-8 rounded-full  text-gray-500 flex items-center justify-center font-bold border-gray-200 border-2",
+    base: "w-8 h-8 rounded-full  text-gray-500 flex items-center justify-center font-bold border-gray-200 border-2 cursor-pointer",
     active: "bg-white text-gray-500 border-2 border-primary-default text-primary-default",
     done: "bg-primary-default text-white border-2 border-primary-default",
 };
@@ -260,8 +237,11 @@ const RegisterStore = (props: any) => {
                                             <DefaultButton
                                                 className="dark:bg-primary-dark max-w-[140px]"
                                                 disabled={processing}
+                                                onClick={() => {
+                                                    setTabIndex(1);
+                                                }}
                                             >
-                                                Next Step{" "}
+                                                Next Step
                                                 <FaArrowRight className="ml-2" />
                                             </DefaultButton>
                                         </div>
@@ -303,6 +283,16 @@ const RegisterStore = (props: any) => {
                                                         </option>
                                                     ))}
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4">
+                                            <InputLabel
+                                                htmlFor="business_name"
+                                                className="dark:text-white"
+                                                value="Upload ID (Front and Back)"
+                                            />
+                                            <div className="mt-2">
+                                                <ImageUploader />
                                             </div>
                                         </div>
                                     </div>
