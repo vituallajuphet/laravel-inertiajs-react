@@ -10,7 +10,7 @@ const hasValue = (value?: any | object | number) => {
         const error = Object.entries(value).reduce(
             (acc: string[], [key, val]) => {
                 if (_.isEmpty(val)) {
-                    acc = [key];
+                    acc = ["error"];
                 }
 
                 return [...acc];
@@ -18,7 +18,6 @@ const hasValue = (value?: any | object | number) => {
             []
         );
 
-        console.log("hasData error", error);
         return error.length === 0;
     } else {
         return !_.isEmpty(value);
@@ -27,7 +26,8 @@ const hasValue = (value?: any | object | number) => {
 
 export const useValidator = (formdata: FormDataType, validators: object) => {
     const errors = useMemo(() => {
-        if (_.isEmpty(validators) || _.isEmpty(formdata)) return false;
+        if (_.isEmpty(validators) || _.isEmpty(formdata))
+            return { errors: {}, validated: true };
 
         const hasError = Object.entries(validators).reduce(
             (acc, [key, value], index) => {
@@ -36,6 +36,27 @@ export const useValidator = (formdata: FormDataType, validators: object) => {
                         if (typeof validation === "string") {
                             if (validation === "required") {
                                 const hasData = hasValue(formdata[key]);
+                                if (!hasData) {
+                                    acc = {
+                                        errors: {
+                                            ...acc.errors,
+                                            [key]: "must not empty!",
+                                        },
+                                        validated: false,
+                                    };
+                                }
+                                return acc;
+                            } else if (validation.includes("min")) {
+                                const [, num] = validation?.split("|");
+                                if (num > formdata[key]?.length) {
+                                    acc = {
+                                        errors: {
+                                            ...acc.errors,
+                                            [key]: `must have a minimum character of ${num}`,
+                                        },
+                                        validated: false,
+                                    };
+                                }
                             }
                         }
                     });
@@ -43,11 +64,14 @@ export const useValidator = (formdata: FormDataType, validators: object) => {
 
                 return acc;
             },
-            []
+            {
+                errors: {},
+                validated: true,
+            }
         );
+
+        return hasError;
     }, [formdata]);
 
-    return {
-        isValidated: true,
-    };
+    return errors;
 };

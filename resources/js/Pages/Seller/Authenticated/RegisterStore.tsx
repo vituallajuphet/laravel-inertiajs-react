@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SellerGuest from "@/Layouts/SellerGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
@@ -24,6 +24,7 @@ const RegisterStore = (props: any) => {
     const { auth } = props;
     const { user } = auth;
     const [tabIndex, setTabIndex] = useState(0);
+    const [submitedIndexes, setSubmittedIndexes] = useState<any[]>([]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         store_name: "",
@@ -41,24 +42,18 @@ const RegisterStore = (props: any) => {
         },
     });
 
-    const { isValidated } = useValidator(data, {
-        store_name: ["required"],
-        business_name: ["required"],
-        address: [
-            "required",
-            {
-                postal: "min|4",
-            },
-        ],
-        business_street: ["required"],
+    const isSubmitted = (i: number) => submitedIndexes.includes(i);
+
+    const { errors: theError, validated } = useValidator(data, {
+        business_name: ["required", "min|5"],
+        address: ["required"],
+        business_street: ["required", "min|5"],
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route("merchant.register"));
     };
-
-    console.log("renderered");
 
     return (
         <SellerGuest>
@@ -75,6 +70,7 @@ const RegisterStore = (props: any) => {
                         <StyledTabs
                             selectedIndex={tabIndex}
                             onSelect={(index) => {
+                                if (!validated) return;
                                 setTabIndex(index);
                             }}
                         >
@@ -86,7 +82,9 @@ const RegisterStore = (props: any) => {
                                 <Tab
                                     className={`${tabsClass.base} ${
                                         tabIndex === 0 ? tabsClass.active : ""
-                                    } `}
+                                    } 
+                                        ${isSubmitted(0) ? " bg-red-200" : ""}
+                                    `}
                                 >
                                     1
                                 </Tab>
@@ -248,9 +246,14 @@ const RegisterStore = (props: any) => {
                                         <div className="flex items-center justify-start mt-6">
                                             <DefaultButton
                                                 className="dark:bg-primary-dark max-w-[140px]"
-                                                disabled={processing}
+                                                disabled={
+                                                    processing || !validated
+                                                }
                                                 onClick={() => {
                                                     setTabIndex(1);
+                                                    setSubmittedIndexes(
+                                                        (prev) => [...prev, 0]
+                                                    );
                                                 }}
                                             >
                                                 Next Step
@@ -314,7 +317,9 @@ const RegisterStore = (props: any) => {
                                         <div className="flex items-center justify-start mt-6">
                                             <DefaultButton
                                                 className="dark:bg-primary-dark max-w-[140px]"
-                                                disabled={processing}
+                                                disabled={
+                                                    processing || !validated
+                                                }
                                             >
                                                 Submit
                                             </DefaultButton>
